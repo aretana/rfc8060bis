@@ -88,12 +88,13 @@
     <section>
       <name>Introduction</name>
       <t>
-      The LISP architecture and protocol <xref target="RFC6830"/> 
-      introduces two new numbering spaces: Endpoint Identifiers (EIDs) 
-      and Routing Locators (RLOCs). To provide flexibility for current 
-      and future applications, these values can be encoded in LISP 
-      control messages using a general syntax that includes Address 
-      Family Identifier (AFI), length, and value fields.
+      The LISP architecture and protocol <xref target="RFC9300"/> 
+      <xref target="RFC9301"/> introduces two new numbering spaces: 
+      Endpoint Identifiers (EIDs) and Routing Locators (RLOCs). To 
+      provide flexibility for current and future applications, these 
+      values can be encoded in LISP control messages using a general 
+      syntax that includes Address Family Identifier (AFI), length, and 
+      value fields.
       </t>
       <t>
       Currently defined AFIs include IPv4 and IPv6 addresses, which are 
@@ -317,7 +318,7 @@
        </t></dd>
       </dl>
       <t>
-      <xref target="RFC6830"/> states RLOC-records based on an IP 
+      <xref target="RFC9301"/> states RLOC-records based on an IP 
       address are sorted when encoded in control messages, so the 
       locator-set has consistent order across all xTRs for a given EID. 
       The sort order is based on sort-key {afi, RLOC-address}. When an 
@@ -384,7 +385,7 @@
        <dt>Instance ID:</dt>
         <dd><t> 
         the low-order 24 bits that can go into a LISP data header when 
-        the I bit is set. See <xref target="RFC6830"/> for details. The 
+        the I bit is set. See <xref target="RFC9300"/> for details. The 
         reason for the length difference is so that the maximum number 
         of instances supported per mapping system is 2^32, while 
         conserving space in the LISP data header. This comes at the 
@@ -731,7 +732,7 @@
     <dt>Instance ID:</dt>
      <dd><t> 
      the low-order 24 bits that can go into a LISP data header when the 
-     I bit is set. See <xref target="RFC6830"/> for details. The use of 
+     I bit is set. See <xref target="RFC9300"/> for details. The use of 
      the Instance ID in this LCAF Type is to associate a multicast 
      forwarding entry for a given VPN. The Instance ID describes the 
      VPN and is registered to the mapping database system as a 3-tuple 
@@ -1588,7 +1589,7 @@
     indicates that the JSON field is binary encoded according to 
     <xref target="JSON-BINARY"/> when the bit is set to 1. Otherwise, 
     the encoding is based on text encoding according to 
-    <xref target="RFC7159"/>.
+    <xref target="RFC8259"/>.
     </t></dd>
    <dt>JSON length:</dt>
     <dd><t> 
@@ -1770,7 +1771,7 @@
     <dd><t> 
     The RLOCs listed in the AFI-encoded addresses in the next longword 
     can accept Layer 3 LISP encapsulation using destination UDP port 
-    4341 <xref target="RFC6830"/>.
+    4341 <xref target="RFC9300"/>.
     </t></dd>
   </dl>
   <t> 
@@ -1904,13 +1905,14 @@
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3232.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3986.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6280.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6830.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6836.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7159.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7348.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7637.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8126.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8259.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9300.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9301.xml"/>
         <!-- The recommended and simplest way to include a well known reference -->
         
       </references>
@@ -1945,6 +1947,7 @@
          </front>
         </reference>
 
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6830.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8060.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8061.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8111.xml"/>

@@ -16,7 +16,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="std"
-  docName="draft-retana-lisp-rfc8060bis-00"
+  docName="draft-ietf-lisp-rfc8060bis-00"
   ipr="trust200902"
   obsoletes="8060"
   updates=""
@@ -27,7 +27,7 @@
   <front>
     <title abbrev="LISP Canonical Address Format">LISP Canonical Address Format (LCAF)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-retana-lisp-rfc8060bis-00"/>
+    <seriesInfo name="Internet-Draft" value="draft-ietf-lisp-rfc8060bis-00"/>
    
     <author fullname="Alvaro Retana" initials="A." surname="Retana" role="editor">
       <organization>Futurewei Technologies, Inc.</organization>

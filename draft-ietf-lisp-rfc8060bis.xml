@@ -16,7 +16,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="std"
-  docName="draft-ietf-lisp-rfc8060bis-00"
+  docName="draft-ietf-lisp-rfc8060bis-01"
   ipr="trust200902"
   obsoletes="8060"
   updates=""
@@ -27,7 +27,7 @@
   <front>
     <title abbrev="LISP Canonical Address Format">LISP Canonical Address Format (LCAF)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-ietf-lisp-rfc8060bis-00"/>
+    <seriesInfo name="Internet-Draft" value="draft-ietf-lisp-rfc8060bis-01"/>
    
     <author fullname="Alvaro Retana" initials="A." surname="Retana" role="editor">
       <organization>Futurewei Technologies, Inc.</organization>
@@ -143,20 +143,9 @@
       </t>
       <t> 
       Specific detailed uses for the LCAF Types defined in this 
-      document can be found in the use-case documents that implement 
-      them. The same LCAF Type may be used by more than one use-case 
-      document. As an Experimental specification, this work is, by 
-      definition, incomplete.
-      </t>
-      <t>
-      The LCAF Types defined in this document are to support 
-      experimentation and are intended for cautious use in 
-      self-contained environments in support of the corresponding 
-      use-case documents. This document provides assignment for an 
-      initial set of approved LCAF Types (registered with IANA) and 
-      additional unapproved LCAF Types <xref target="RFC6830"/>. The 
-      unapproved LCAF encodings are defined to support further study 
-      and experimentation.
+      document may be found in separate use-case documents, for example 
+      [ToDo: add references here or in the specific sections]. The same 
+      LCAF Type may be used by more than one use-case document.
       </t>
       <t>
       This document obsoletes <xref target="RFC8060"/>.
@@ -185,11 +174,10 @@
          <dd><t> 
           a term used to describe an address encoding in a packet. 
           Address families are defined for IPv4 and IPv6. See 
-          <xref target="AFN"/> and <xref target="RFC3232"/> for 
-          details. The reserved AFI value of 0 is used in this 
-          specification to indicate an unspecified encoded address 
-          where the length of the address is 0 bytes following the 
-          16-bit AFI value of 0.
+          <xref target="AFN"/> for details. The reserved AFI value of 0 
+          is used in this specification to indicate an unspecified 
+          encoded address where the length of the address is 0 bytes 
+          following the 16-bit AFI value of 0.
          </t></dd>
          <dt>Unspecified Address Format:</dt>
           <dd/></dl>
@@ -238,10 +226,7 @@
       <t>
       IANA has assigned AFI value 16387 (0x4003) to the LISP Canonical 
       Address Format (LCAF). This specification defines the encoding 
-      format of the LISP Canonical Address (LCA). This section defines 
-      all Types for which an initial allocation in the LISP-LCAF 
-      registry is requested. See <xref target="IANA"/> for the 
-      complete list of such Types.
+      format of the LISP Canonical Address (LCA). 
       </t>
       <t>
       The AFI definitions in <xref target="AFN"/> only allocate 
@@ -283,27 +268,25 @@
        </t></dd>
       <dt>Type:</dt>
        <dd><t> this 8-bit field is specific to the LISP Canonical 
-       Address Format encodings. Both approved and unapproved values 
-       are listed below. Unapproved values are indicated; see 
-       <xref target="Exp-Apps"/> for more details.
+       Address Format encodings.
        </t></dd>
       <dt>Type 0:</dt><dd><t>Null Body</t></dd>
       <dt>Type 1:</dt><dd><t>AFI List</t></dd>
       <dt>Type 2:</dt><dd><t>Instance ID</t></dd>
       <dt>Type 3:</dt><dd><t>AS Number</t></dd>
-      <dt>Type 4:</dt><dd><t>Application Data (unapproved; see <xref target="Exp-Apps"/>)</t></dd>
+      <dt>Type 4:</dt><dd><t>Application Data</t></dd>
       <dt>Type 5:</dt><dd><t>Geo-Coordinates</t></dd>
-      <dt>Type 6:</dt><dd><t>Opaque Key (unapproved; see <xref target="Exp-Apps"/>)</t></dd>
+      <dt>Type 6:</dt><dd><t>Opaque Key</t></dd>
       <dt>Type 7:</dt><dd><t>NAT-Traversal</t></dd>
-      <dt>Type 8:</dt><dd><t>Nonce Locator (unapproved; see <xref target="Exp-Apps"/>)</t></dd>
+      <dt>Type 8:</dt><dd><t>Nonce Locator</t></dd>
       <dt>Type 9:</dt><dd><t>Multicast Info</t></dd>
       <dt>Type 10:</dt><dd><t>Explicit Locator Path</t></dd>
       <dt>Type 11:</dt><dd><t>Security Key</t></dd>
       <dt>Type 12:</dt><dd><t>Source/Dest Key</t></dd>
       <dt>Type 13:</dt><dd><t>Replication List Entry</t></dd>
-      <dt>Type 14:</dt><dd><t>JSON Data Model (unapproved; see <xref target="Exp-Apps"/>)</t></dd>
-      <dt>Type 15:</dt><dd><t>Key/Value Address Pair (unapproved; see <xref target="Exp-Apps"/>)</t></dd>
-      <dt>Type 16:</dt><dd><t>Encapsulation Format (unapproved; see <xref target="Exp-Apps"/>)</t></dd>
+      <dt>Type 14:</dt><dd><t>JSON Data Model</t></dd>
+      <dt>Type 15:</dt><dd><t>Key/Value Address Pair</t></dd>
+      <dt>Type 16:</dt><dd><t>Encapsulation Format</t></dd>
       <dt>Length:</dt>
        <dd><t> 
        this 16-bit field is in units of bytes and covers all of the 
@@ -329,11 +312,11 @@
       </t>
     </section>
 
-    <section>
+    <section anchor="main">
      <name>LISP Canonical Address Applications</name>
       <t> 
-      The following sections define the LCAF for the currently approved 
-      initial set of Type values.
+      The following sections define the LCAF for the currently defined 
+      set of Type values.
       </t>
 
      <section>
@@ -469,115 +452,135 @@
      </t>
     </section>
 
-    <section>
-     <name>Assigning Geo-Coordinates to Locator Addresses</name>
+    <section anchor="Convey">
+    <name>Convey Application-Specific Data</name>
      <t> 
-     If an ETR desires to send a Map-Reply describing the 
-     Geo-Coordinates for each locator in its locator-set, it can use 
-     the Geo-Coordinates LCAF Type to convey physical location 
-     information.
+     When a locator-set needs to be conveyed based on the type of 
+     application or the Per-Hop Behavior (PHB) of a packet, the 
+     Application Data LCAF Type can be used.
      </t>
      <t>
-     Coordinates are specified using the WGS 84 (World Geodetic System 
-     1984) reference coordinate system <xref target="WGS-84"/>.
+     Application Data LISP Canonical Address Format:
      </t>
-     <t>
-     Geo-Coordinates LISP Canonical Address Format:
-     </t>
-    <artwork type="ascii-art">
-    <![CDATA[
+     <artwork type="ascii-art">
+     <![CDATA[
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |           AFI = 16387         |     Rsvd1     |     Flags     |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|   Type = 5    |     Rsvd2     |            Length             |
+|   Type = 4    |     Rsvd2     |            Length             |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|N|     Latitude Degrees        |    Minutes    |    Seconds    |
+|       IP TOS, IPv6 TC, or Flow Label          |    Protocol   |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|E|     Longitude Degrees       |    Minutes    |    Seconds    |
+|    Local Port (lower-range)   |    Local Port (upper-range)   |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                            Altitude                           |
+|   Remote Port (lower-range)   |   Remote Port (upper-range)   |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |              AFI = x          |         Address  ...          |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    ]]>
-    </artwork>
-    <dl newline="false" spacing="normal" indent="3">
-    <dt>Length:</dt>
-     <dd><t> 
-     length in bytes starting and including the byte after this Length 
-     field. 
-     </t></dd>
-    <dt>N:</dt>
-     <dd><t> 
-     When set to 1 means north; otherwise, south.
-     </t></dd>     
-    <dt>Latitude Degrees:</dt>
-     <dd><t> 
-     Valid values range from 0 to 90 degrees above or below the equator 
-     (northern or southern hemisphere, respectively).
-     </t></dd>
-    <dt>Latitude Minutes:</dt>
-     <dd><t> 
-     Valid values range from 0 to 59. 
-     </t></dd>
-    <dt>Latitude Seconds:</dt>
-     <dd><t> 
-     Valid values range from 0 to 59. 
-     </t></dd>
-    <dt>E:</dt>
-     <dd><t> 
-     When set to 1 means east; otherwise, west. 
-     </t></dd>
-    <dt>Longitude Degrees:</dt>
-     <dd><t> 
-     Valid values are from 0 to 180 degrees right or left of the Prime 
-     Meridian. 
-     </t></dd>
-    <dt>Longitude Minutes:</dt>
-     <dd><t> 
-     Valid values range from 0 to 59. 
-     </t></dd>
-    <dt>Longitude Seconds:</dt>
-     <dd><t> 
-     Valid values range from 0 to 59. 
-     </t></dd>
-    <dt>Altitude:</dt>
-     <dd><t> 
-     Height relative to sea level in meters. This is a two's complement 
-     signed integer meaning that the altitude could be below sea level. 
-     A value of 0x7fffffff indicates no Altitude value is encoded. 
-     </t></dd>
-    <dt>AFI = x:</dt>
-     <dd><t>
-     x can be any AFI value from <xref target="AFN"/>.
-     </t></dd>
-    </dl>
+     ]]>
+     </artwork>
+     <dl newline="false" spacing="normal" indent="3">
+      <dt>Length:</dt>
+       <dd><t> 
+       length in bytes starting and including the byte after this 
+       Length field. 
+       </t></dd>
+      <dt>IP TOS, IPv6 TC, or Flow Label:</dt>
+       <dd><t> 
+       this field stores the 8-bit IPv4 TOS field used in an IPv4 
+       header, the 8-bit IPv6 Traffic Class or Flow Label used in an 
+       IPv6 header. 
+       </t></dd>
+      <dt>Local Port/Remote Port Ranges:</dt>
+       <dd><t> 
+       these fields are from the TCP, UDP, or Stream Control 
+       Transmission Protocol (SCTP) transport header. A range can be 
+       specified by using a lower value and an upper value. When a 
+       single port is encoded, the lower and upper value fields are the 
+       same. 
+       </t></dd>
+      <dt>AFI = x:</dt>
+       <dd><t>
+       x can be any AFI value from <xref target="AFN"/>.
+       </t></dd>
+     </dl>
+     <t> 
+     The Application Data LCAF Type is used for an EID encoding when an 
+     ITR wants a locator-set for a specific application. When used for 
+     an RLOC encoding, the ETR is supplying a locator-set for each 
+     specific application is has been configured to advertise.
+     </t>
+     <t>
+     Usage: This encoding can be used in EID-records in Map-Request, 
+     Map-Reply, Map-Register, and Map-Notify messages. When LISP-DDT 
+     <xref target="RFC8111"/> is used as the mapping system mechanism, 
+     extended EIDs are used in Map-Referral messages. This LCAF Type is 
+     used as a lookup key to the mapping system that can return a 
+     longest-match or exact- match entry.
+     </t>
+    </section>
 
+   <section>
+    <name>Generic Database Mapping Lookups</name>
     <t> 
-    The Geo-Coordinates LCAF Type can be used to encode either EID or 
-    RLOC addresses. When used for EID encodings, you can determine the 
-    physical location of an EID along with the topological location by 
-    observing the locator-set.
+    When the LISP Mapping Database System holds information accessed by 
+    a generic formatted key (where the key is not the usual IPv4 or 
+    IPv6 address), an opaque key may be desirable.
     </t>
     <t>
-    Usage: This encoding can be used in EID-records or RLOC-records in 
-    Map-Request, Map-Reply, Map-Register, and Map-Notify messages. When 
-    LISP-DDT <xref target="RFC8111"/> is used as the mapping system 
-    mechanism, extended EIDs are used in Map-Referral messages.
+    Opaque Key LISP Canonical Address Format:
     </t>
-    <t> 
-    The use of the Geo-Coordinates LCAF encoding raises privacy issues 
-    as location information is privacy sensitive, and possibly 
-    unexpectedly privacy-sensitive information may be conveyed, e.g., 
-    if the location information corresponds to a router located in a 
-    person's home. Therefore, this encoding should not be used unless 
-    needed for operation of a LISP deployment. Before electing to 
-    utilize this encoding, care should be taken to ensure the 
-    appropriate policies are being used by the EID for controlling the 
-    conveyed information.
-    </t>
+    <artwork type="ascii-art">
+     <![CDATA[
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|           AFI = 16387         |     Rsvd1     |     Flags     |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|   Type = 6    |     Rsvd2     |             Length            |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| Key Field Num |      Key Wildcard Fields      |   Key . . .   |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                       . . . Key                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     ]]>
+    </artwork>
+    <dl newline="false" spacing="normal" indent="3">
+     <dt>Length:</dt>
+      <dd><t> 
+      length in bytes starting and including the byte after this Length 
+      field. 
+      </t></dd>
+     <dt>Key Field Num:</dt>
+      <dd><t> 
+      the value of this field is the number of "Key" sub-fields minus 
+      1, the Key field can be broken up into. So, if this field has a 
+      value of 0, there is one sub-field in the "Key". The width of the 
+      sub-fields are fixed length. So, for a key size of 8 bytes, with 
+      a Key Field Num of 3, four sub-fields of 2 bytes each in length 
+      are allowed. Allowing for a reasonable number of 16 sub-field 
+      separators, valid values range from 0 to 15. 
+      </t></dd>
+     <dt>Key Wildcard Fields:</dt>
+      <dd><t> 
+      describes which fields in the key are not used as part of the key 
+      lookup. This wildcard encoding is a bitfield. Each bit is a 
+      don't-care bit for a corresponding field in the key. Bit 0 (the 
+      low-order bit) in this bitfield corresponds the first field, the 
+      low-order field in the key, bit 1 the second field, and so on. 
+      When a bit is set in the bitfield, it is a don't-care bit and 
+      should not be considered as part of the database lookup. When the 
+      entire 16 bits are set to 0, then all bits of the key are used 
+      for the database lookup. 
+      </t></dd>
+     <dt>Key:</dt>
+      <dd><t> the variable length key used to do a LISP Mapping 
+      Database System lookup. The length of the key is the value n (as 
+      shown above). 
+      </t></dd>
+    </dl>
    </section>
 
    <section>
@@ -675,6 +678,58 @@
     are used during EID registrations that use this LCAF Type in RLOC- 
     records. Refer to the use-case documents for additional information.
     </t>
+  </section>
+
+  <section>
+   <name>PETR Admission Control Functionality</name>
+   <t> 
+   When a public Proxy Egress Tunnel Router (PETR) device wants to 
+   verify who is encapsulating to it, it can check for a specific nonce 
+   value in the LISP-encapsulated packet. To convey the nonce to 
+   admitted ITRs or PITRs, this LCAF is used in a Map-Register or Map- 
+   Reply locator-record.
+   </t>
+   <t>
+   Nonce Locator Canonical Address Format:
+   </t>
+   <artwork type="ascii-art">
+    <![CDATA[
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|           AFI = 16387         |     Rsvd1     |     Flags     |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|   Type = 8    |     Rsvd2     |             Length            |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|   Reserved    |                  Nonce                        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|              AFI = x          |         Address  ...          |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    ]]>
+   </artwork>
+   <dl newline="false" spacing="normal" indent="3">
+    <dt>Length:</dt>
+     <dd><t> 
+     length in bytes starting and including the byte after this Length 
+     field. 
+     </t></dd>
+    <dt>Reserved:</dt>
+     <dd><t> 
+     must be set to zero and ignored on receipt. 
+     </t></dd>
+    <dt>Nonce:</dt>
+     <dd><t>
+     a nonce value returned by an ETR in a Map-Reply locator-record to 
+     be used by an ITR or PITR when encapsulating to the locator 
+     address encoded in the AFI field of this LCAF Type. This nonce 
+     value is inserted in the nonce field in the LISP header 
+     encapsulation. 
+     </t></dd>
+    <dt>AFI = x:</dt>
+     <dd><t>
+     x can be any AFI value from <xref target="AFN"/>.
+     </t></dd>
+   </dl>
   </section>
 
   <section>
@@ -824,7 +879,7 @@
      <dt>RLOC Probe bit (P):</dt>
       <dd><t> 
       this is the RLOC Probe bit that means the Reencap Hop allows 
-      RLOC-probe messages to be sent to it. When the R bit is set to 0, 
+      RLOC-probe messages to be sent to it. When the P bit is set to 0, 
       RLOC-probes must not be sent. When a Reencap Hop is an anycast 
       address then multiple physical Reencap Hops are using the same 
       RLOC address. In this case, RLOC-probes are not needed because 
@@ -1078,6 +1133,229 @@
     Map- Reply, Map-Register, and Map-Notify messages.
     </t>
    </section> 
+
+   <section>
+   <name>Data Model Encoding</name>
+    <t> 
+    This Type allows a JSON data model to be encoded as either an EID 
+    or an RLOC.
+    </t>
+    <t>
+    JSON Data Model Type Address Format:
+    </t>
+    <artwork type="ascii-art">
+     <![CDATA[
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|           AFI = 16387         |     Rsvd1     |     Flags     |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|   Type = 14   |    Rsvd2    |B|            Length             |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|           JSON length         | JSON binary/text encoding ... |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|              AFI = x          |       Optional Address ...    |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     ]]>
+    </artwork>
+    <dl newline="false" spacing="normal" indent="3">
+     <dt>Length:</dt>
+      <dd><t> 
+      length in bytes starting and including the byte after this Length 
+      field. 
+      </t></dd>
+     <dt>B bit:</dt>
+      <dd><t> 
+      indicates that the JSON field is binary encoded according to 
+      <xref target="JSON-BINARY"/> when the bit is set to 1. Otherwise, 
+      the encoding is based on text encoding according to 
+      <xref target="RFC8259"/>.
+      </t></dd>
+     <dt>JSON length:</dt>
+      <dd><t> 
+      length in octets of the following JSON binary/text encoding field.
+      </t></dd>
+     <dt>JSON binary/text encoding:</dt>
+      <dd><t> 
+      a variable-length field that contains either binary or text 
+      encodings. 
+      </t></dd>
+     <dt>AFI = x:</dt>
+      <dd><t>
+      x can be any AFI value from <xref target="AFN"/>. A specific AFI 
+      has its own encoding of either a unicast or multicast locator 
+      address. All RTR/ETR entries for the same level should be 
+      combined by a Map-Server to avoid searching through the entire 
+      multilevel list of locator entries in a Map-Reply message.
+      </t></dd>
+    </dl>
+    <t> 
+    Usage: An example mapping is an EID-record encoded as a 
+    distinguished-name "cpe-router" and an RLOC-record encoded as a 
+    JSON string "{ "router-address" : "1.1.1.1", "router-mask" : "8" }".
+    </t>
+   </section>
+
+   <section>
+    <name>Encoding Key/Value Address Pairs</name>
+    <t> 
+    The Key/Value pair is, for example, useful for attaching attributes 
+    to other elements of LISP packets, such as EIDs or RLOCs. When 
+    attaching attributes to EIDs or RLOCs, it's necessary to 
+    distinguish between the element that should be used as EID or RLOC 
+    and, hence, as the key for lookups and additional attributes. This 
+    is especially the case when the difference cannot be determined 
+    from the Types of the elements, such as when two IP addresses are 
+    being used.
+    </t>
+    <t>
+    Key/Value Address Pair Address Format:
+    </t>
+    <artwork type="ascii-art">
+     <![CDATA[
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|           AFI = 16387         |     Rsvd1     |     Flags     |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|   Type = 15   |     Rsvd2     |            Length             |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|              AFI = x          |       Address as Key ...      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|              AFI = y          |       Address as Value ...    |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+     ]]>
+    </artwork>
+    <dl newline="false" spacing="normal" indent="3">
+     <dt>Length:</dt>
+      <dd><t> 
+      length in bytes starting and including the byte after this Length 
+      field. 
+      </t></dd>
+     <dt>AFI = x:</dt>
+      <dd><t>
+      x is the "Address as Key" AFI that can have any value from 
+      <xref target="AFN"/>. A specific AFI has its own encoding of 
+      either a unicast or a multicast locator address. All RTR/ETR 
+      entries for the same level should be combined by a Map-Server to 
+      avoid searching through the entire multilevel list of locator 
+      entries in a Map-Reply message.
+      </t></dd>
+     <dt>Address as Key:</dt>
+      <dd><t> 
+      AFI-encoded address that will be attached with the attributes 
+      encoded in "Address as Value", which follows this field. 
+      </t></dd>
+     <dt>AFI = y:</dt>
+      <dd><t>
+      y is the "Address of Value" AFI that can have any value from 
+      <xref target="AFN"/>. A specific AFI has its own encoding of 
+      either a unicast or a multicast locator address. All RTR/ETR 
+      entries for the same level should be combined by a Map-Server to 
+      avoid searching through the entire multilevel list of locator 
+      entries in a Map-Reply message.
+      </t></dd>
+     <dt>Address as Value:</dt>
+      <dd><t> 
+      AFI-encoded address that will be the attribute address that goes 
+      along with "Address as Key" which precedes this field. 
+      </t></dd>
+    </dl>
+   </section>
+
+   <section anchor="encap">
+    <name>Multiple Data-Planes</name>
+    <t> 
+    Overlays are becoming popular in many parts of the network, which 
+    has created an explosion of data-plane encapsulation headers. Since 
+    the LISP mapping system can hold many types of address formats, it 
+    can represent the encapsulation format supported by an RLOC as 
+    well. When an encapsulator receives a Map-Reply with an 
+    Encapsulation Format LCAF Type encoded in an RLOC-record, it can 
+    select an encapsulation format, that it can support, from any of 
+    the encapsulation protocols that have the bit set to 1 in this LCAF 
+    Type.
+    </t>
+    <t>
+    Encapsulation Format Address Format:
+    </t>
+    <artwork type="ascii-art">
+     <![CDATA[
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|           AFI = 16387         |     Rsvd1     |     Flags     |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|   Type = 16   |     Rsvd2     |             Length            |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|        Reserved-for-Future-Encapsulations       |U|G|N|v|V|l|L|
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|              AFI = x          |          Address ...          |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      ]]>
+    </artwork>
+    <dl newline="false" spacing="normal" indent="3">
+     <dt>Length:</dt>
+      <dd><t> 
+      length in bytes starting and including the byte after this Length 
+      field. 
+      </t></dd>
+     <dt>Reserved-for-Future-Encapsulations:</dt>
+      <dd><t> 
+      must be set to zero and ignored on receipt. This field will get 
+      bits allocated to future encapsulations, as they are created. 
+      </t></dd>
+     <dt>U:</dt>
+      <dd><t>
+      The RLOCs listed in the AFI-encoded addresses in the next 
+      longword can accept Generic UDP Encapsulation (GUE) using 
+      destination UDP port 6080 <xref target="I-D.ietf-intarea-gue"/>.
+      </t></dd>
+     <dt>G:</dt>
+      <dd><t>
+      The RLOCs listed in the AFI-encoded addresses in the next 
+      longword can accept Geneve encapsulation using destination UDP 
+      port 6081 <xref target="RFC8926"/>.
+      </t></dd>
+     <dt>N:</dt>
+      <dd><t> 
+      The RLOCs listed in the AFI-encoded addresses in the next 
+      longword can accept NV-GRE (Network Virtualization - Generic 
+      Routing Encapsulation) using IPv4/IPv6 protocol number 47 
+      <xref target="RFC7637"/>.
+      </t></dd>
+     <dt>v:</dt>
+      <dd><t> 
+      The RLOCs listed in the AFI-encoded addresses in the next 
+      longword can accept VXLAN-GPE (Generic Protocol Extension) 
+      encapsulation using destination UDP port 4790 
+      <xref target="I-D.ietf-nvo3-vxlan-gpe"/>.
+      </t></dd>
+     <dt>V:</dt>
+      <dd><t> 
+      The RLOCs listed in the AFI-encoded addresses in the next 
+      longword can accept Virtual eXtensible Local Area Network (VXLAN) 
+      encapsulation using destination UDP port 4789 
+      <xref target="RFC7348"/>.
+      </t></dd>
+     <dt>l:</dt>
+      <dd><t>
+      The RLOCs listed in the AFI-encoded addresses in the next 
+      longword can accept Layer 2 LISP encapsulation using destination 
+      UDP port 8472 <xref target="I-D.smith-lisp-layer2"/>.
+      </t></dd>
+     <dt>L:</dt>
+      <dd><t> 
+      The RLOCs listed in the AFI-encoded addresses in the next 
+      longword can accept Layer 3 LISP encapsulation using destination 
+      UDP port 4341 <xref target="RFC9300"/>.
+      </t></dd>
+    </dl>
+    <t> 
+    Usage: This encoding can be used in RLOC-records in Map-Request, 
+    Map-Reply, Map-Register, and Map-Notify messages.
+    </t>
+  </section>
 
   <section>
    <name>Applications for AFI List LCAF Type</name>
@@ -1356,439 +1634,13 @@
     </section>
 
 
-<section anchor="Exp-Apps">
- <name>Experimental LISP Canonical Address Applications</name>
- <t> 
- The following sections describe experimental LCAF encodings. These 
- LCAF Types are not approved (i.e., not registered with IANA). The 
- inclusion of these encodings in this document is in support of further 
- study and experimentation to determine whether these encodings are 
- functional, if there is a demand for these use cases, and to better 
- understand deployment considerations. As noted previously, these LCAF 
- Types are restricted to cautious use in self- contained environments 
- in support of the corresponding use-case documents.
- </t>
-
- <section anchor="Convey">
-  <name>Convey Application-Specific Data</name>
-  <t> 
-  When a locator-set needs to be conveyed based on the type of 
-  application or the Per-Hop Behavior (PHB) of a packet, the 
-  Application Data LCAF Type can be used.
-  </t>
-  <t>
-  Application Data LISP Canonical Address Format:
-  </t>
-  <artwork type="ascii-art">
-   <![CDATA[
- 0                   1                   2                   3
- 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|           AFI = 16387         |     Rsvd1     |     Flags     |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|   Type = 4    |     Rsvd2     |            Length             |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|       IP TOS, IPv6 TC, or Flow Label          |    Protocol   |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|    Local Port (lower-range)   |    Local Port (upper-range)   |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|   Remote Port (lower-range)   |   Remote Port (upper-range)   |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|              AFI = x          |         Address  ...          |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   ]]>
-  </artwork>
-  <dl newline="false" spacing="normal" indent="3">
-   <dt>Length:</dt>
-    <dd><t> 
-    length in bytes starting and including the byte after this Length 
-    field. 
-    </t></dd>
-   <dt>IP TOS, IPv6 TC, or Flow Label:</dt>
-    <dd><t> 
-    this field stores the 8-bit IPv4 TOS field used in an IPv4 header, 
-    the 8-bit IPv6 Traffic Class or Flow Label used in an IPv6 header. 
-    </t></dd>
-   <dt>Local Port/Remote Port Ranges:</dt>
-    <dd><t> 
-    these fields are from the TCP, UDP, or Stream Control Transmission 
-    Protocol (SCTP) transport header. A range can be specified by using 
-    a lower value and an upper value. When a single port is encoded, 
-    the lower and upper value fields are the same. 
-    </t></dd>
-   <dt>AFI = x:</dt>
-    <dd><t>
-    x can be any AFI value from <xref target="AFN"/>.
-    </t></dd>
-  </dl>
-  <t> 
-  The Application Data LCAF Type is used for an EID encoding when an 
-  ITR wants a locator-set for a specific application. When used for an 
-  RLOC encoding, the ETR is supplying a locator-set for each specific 
-  application is has been configured to advertise.
-  </t>
-  <t>
-  Usage: This encoding can be used in EID-records in Map-Request, Map- 
-  Reply, Map-Register, and Map-Notify messages. When LISP-DDT 
-  <xref target="RFC8111"/> is used as the mapping system mechanism, 
-  extended EIDs are used in Map-Referral messages. This LCAF Type is 
-  used as a lookup key to the mapping system that can return a 
-  longest-match or exact- match entry.
-  </t>
- </section>
-
- <section>
-  <name>Generic Database Mapping Lookups</name>
-  <t> 
-  When the LISP Mapping Database System holds information accessed by a 
-  generic formatted key (where the key is not the usual IPv4 or IPv6 
-  address), an opaque key may be desirable.
-  </t>
-  <t>
-  Opaque Key LISP Canonical Address Format:
-  </t>
-  <artwork type="ascii-art">
-   <![CDATA[
- 0                   1                   2                   3
- 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|           AFI = 16387         |     Rsvd1     |     Flags     |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|   Type = 6    |     Rsvd2     |             Length            |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-| Key Field Num |      Key Wildcard Fields      |   Key . . .   |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                       . . . Key                               |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   ]]>
-  </artwork>
-  <dl newline="false" spacing="normal" indent="3">
-   <dt>Length:</dt>
-    <dd><t> 
-    length in bytes starting and including the byte after this Length field. 
-    </t></dd>
-   <dt>Key Field Num:</dt>
-    <dd><t> 
-    the value of this field is the number of "Key" sub-fields minus 1, 
-    the Key field can be broken up into. So, if this field has a value 
-    of 0, there is one sub-field in the "Key". The width of the 
-    sub-fields are fixed length. So, for a key size of 8 bytes, with a 
-    Key Field Num of 3, four sub-fields of 2 bytes each in length are 
-    allowed. Allowing for a reasonable number of 16 sub-field 
-    separators, valid values range from 0 to 15. 
-    </t></dd>
-   <dt>Key Wildcard Fields:</dt>
-    <dd><t> 
-    describes which fields in the key are not used as part of the key 
-    lookup. This wildcard encoding is a bitfield. Each bit is a 
-    don't-care bit for a corresponding field in the key. Bit 0 (the 
-    low-order bit) in this bitfield corresponds the first field, the 
-    low-order field in the key, bit 1 the second field, and so on. When 
-    a bit is set in the bitfield, it is a don't-care bit and should not 
-    be considered as part of the database lookup. When the entire 16 
-    bits are set to 0, then all bits of the key are used for the 
-    database lookup. 
-    </t></dd>
-   <dt>Key:</dt>
-    <dd><t> the variable length key used to do a LISP Mapping Database 
-    System lookup. The length of the key is the value n (as shown 
-    above). 
-    </t></dd>
-  </dl>
-  <t> 
-  Usage: This is an experimental Type where the usage has not yet been defined.
-  </t>
- </section>
-
- <section>
-  <name>PETR Admission Control Functionality</name>
-  <t> 
-  When a public Proxy Egress Tunnel Router (PETR) device wants to 
-  verify who is encapsulating to it, it can check for a specific nonce 
-  value in the LISP-encapsulated packet. To convey the nonce to 
-  admitted ITRs or PITRs, this LCAF is used in a Map-Register or Map- 
-  Reply locator-record.
-  </t>
-  <t>
-  Nonce Locator Canonical Address Format:
-  </t>
-  <artwork type="ascii-art">
-   <![CDATA[
- 0                   1                   2                   3
- 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|           AFI = 16387         |     Rsvd1     |     Flags     |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|   Type = 8    |     Rsvd2     |             Length            |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|   Reserved    |                  Nonce                        |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|              AFI = x          |         Address  ...          |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   ]]>
-  </artwork>
-  <dl newline="false" spacing="normal" indent="3">
-   <dt>Length:</dt>
-    <dd><t> 
-    length in bytes starting and including the byte after this Length 
-    field. 
-    </t></dd>
-   <dt>Reserved:</dt>
-    <dd><t> 
-    must be set to zero and ignored on receipt. 
-    </t></dd>
-   <dt>Nonce:</dt>
-    <dd><t>
-    a nonce value returned by an ETR in a Map-Reply locator-record to 
-    be used by an ITR or PITR when encapsulating to the locator address 
-    encoded in the AFI field of this LCAF Type. This nonce value is 
-    inserted in the nonce field in the LISP header encapsulation. 
-    </t></dd>
-   <dt>AFI = x:</dt>
-    <dd><t>
-    x can be any AFI value from <xref target="AFN"/>.
-    </t></dd>
-  </dl>
-  <t> 
-  Usage: This is an experimental Type where the usage has not yet been defined.
-  </t>
- </section>
-
- <section>
-  <name>Data Model Encoding</name>
-  <t> 
-  This Type allows a JSON data model to be encoded as either an EID or 
-  an RLOC.
-  </t>
-  <t>
-  JSON Data Model Type Address Format:
-  </t>
-  <artwork type="ascii-art">
-   <![CDATA[
- 0                   1                   2                   3
- 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|           AFI = 16387         |     Rsvd1     |     Flags     |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|   Type = 14   |    Rsvd2    |B|            Length             |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|           JSON length         | JSON binary/text encoding ... |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|              AFI = x          |       Optional Address ...    |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   ]]>
-  </artwork>
-  <dl newline="false" spacing="normal" indent="3">
-   <dt>Length:</dt>
-    <dd><t> 
-    length in bytes starting and including the byte after this Length 
-    field. 
-    </t></dd>
-   <dt>B bit:</dt>
-    <dd><t> 
-    indicates that the JSON field is binary encoded according to 
-    <xref target="JSON-BINARY"/> when the bit is set to 1. Otherwise, 
-    the encoding is based on text encoding according to 
-    <xref target="RFC8259"/>.
-    </t></dd>
-   <dt>JSON length:</dt>
-    <dd><t> 
-    length in octets of the following JSON binary/text encoding field.
-    </t></dd>
-   <dt>JSON binary/text encoding:</dt>
-    <dd><t> 
-    a variable-length field that contains either binary or text 
-    encodings. 
-    </t></dd>
-   <dt>AFI = x:</dt>
-    <dd><t>
-    x can be any AFI value from <xref target="AFN"/>. A specific AFI 
-    has its own encoding of either a unicast or multicast locator 
-    address. All RTR/ETR entries for the same level should be combined 
-    by a Map-Server to avoid searching through the entire multilevel 
-    list of locator entries in a Map-Reply message.
-    </t></dd>
-  </dl>
-  <t> 
-  Usage: This is an experimental Type where the usage has not yet been 
-  defined. An example mapping is an EID-record encoded as a 
-  distinguished-name "cpe-router" and an RLOC-record encoded as a JSON 
-  string "{ "router-address" : "1.1.1.1", "router-mask" : "8" }".
-  </t>
- </section>
-
- <section>
-  <name>Encoding Key/Value Address Pairs</name>
-  <t> 
-  The Key/Value pair is, for example, useful for attaching attributes 
-  to other elements of LISP packets, such as EIDs or RLOCs. When 
-  attaching attributes to EIDs or RLOCs, it's necessary to distinguish 
-  between the element that should be used as EID or RLOC and, hence, as 
-  the key for lookups and additional attributes. This is especially the 
-  case when the difference cannot be determined from the Types of the 
-  elements, such as when two IP addresses are being used.
-  </t>
-  <t>
-  Key/Value Address Pair Address Format:
-  </t>
-  <artwork type="ascii-art">
-   <![CDATA[
- 0                   1                   2                   3
- 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|           AFI = 16387         |     Rsvd1     |     Flags     |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|   Type = 15   |     Rsvd2     |            Length             |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|              AFI = x          |       Address as Key ...      |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|              AFI = y          |       Address as Value ...    |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   ]]>
-  </artwork>
-  <dl newline="false" spacing="normal" indent="3">
-   <dt>Length:</dt>
-    <dd><t> 
-    length in bytes starting and including the byte after this Length 
-    field. 
-    </t></dd>
-   <dt>AFI = x:</dt>
-    <dd><t>
-    x is the "Address as Key" AFI that can have any value from 
-    <xref target="AFN"/>. A specific AFI has its own encoding of either 
-    a unicast or a multicast locator address. All RTR/ETR entries for 
-    the same level should be combined by a Map-Server to avoid 
-    searching through the entire multilevel list of locator entries in 
-    a Map-Reply message.
-    </t></dd>
-   <dt>Address as Key:</dt>
-    <dd><t> 
-    AFI-encoded address that will be attached with the attributes 
-    encoded in "Address as Value", which follows this field. 
-    </t></dd>
-   <dt>AFI = y:</dt>
-    <dd><t>
-    y is the "Address of Value" AFI that can have any value from 
-    <xref target="AFN"/>. A specific AFI has its own encoding of either 
-    a unicast or a multicast locator address. All RTR/ETR entries for 
-    the same level should be combined by a Map-Server to avoid 
-    searching through the entire multilevel list of locator entries in 
-    a Map-Reply message.
-    </t></dd>
-   <dt>Address as Value:</dt>
-    <dd><t> 
-    AFI-encoded address that will be the attribute address that goes 
-    along with "Address as Key" which precedes this field. 
-    </t></dd>
-  </dl>
-  <t> 
-  Usage: This is an experimental Type where the usage has not yet been 
-  defined.
-  </t>
- </section>
-
- <section>
-  <name>Multiple Data-Planes</name>
-  <t> 
-  Overlays are becoming popular in many parts of the network, which has 
-  created an explosion of data-plane encapsulation headers. Since the 
-  LISP mapping system can hold many types of address formats, it can 
-  represent the encapsulation format supported by an RLOC as well. When 
-  an encapsulator receives a Map-Reply with an Encapsulation Format 
-  LCAF Type encoded in an RLOC-record, it can select an encapsulation 
-  format, that it can support, from any of the encapsulation protocols 
-  that have the bit set to 1 in this LCAF Type.
-  </t>
-  <t>
-  Encapsulation Format Address Format:
-  </t>
-  <artwork type="ascii-art">
-   <![CDATA[
- 0                   1                   2                   3
- 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|           AFI = 16387         |     Rsvd1     |     Flags     |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|   Type = 16   |     Rsvd2     |             Length            |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|        Reserved-for-Future-Encapsulations       |U|G|N|v|V|l|L|
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|              AFI = x          |          Address ...          |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    ]]>
-  </artwork>
-  <dl newline="false" spacing="normal" indent="3">
-   <dt>Length:</dt>
-    <dd><t> 
-    length in bytes starting and including the byte after this Length 
-    field. 
-    </t></dd>
-   <dt>Reserved-for-Future-Encapsulations:</dt>
-    <dd><t> 
-    must be set to zero and ignored on receipt. This field will get 
-    bits allocated to future encapsulations, as they are created. 
-    </t></dd>
-   <dt>U:</dt>
-    <dd><t>
-    The RLOCs listed in the AFI-encoded addresses in the next longword 
-    can accept Generic UDP Encapsulation (GUE) using destination UDP 
-    port 6080 <xref target="I-D.ietf-intarea-gue"/>.
-    </t></dd>
-   <dt>G:</dt>
-    <dd><t>
-    The RLOCs listed in the AFI-encoded addresses in the next longword 
-    can accept Geneve encapsulation using destination UDP port 6081 
-    <xref target="RFC8926"/>.
-    </t></dd>
-   <dt>N:</dt>
-    <dd><t> 
-    The RLOCs listed in the AFI-encoded addresses in the next longword 
-    can accept NV-GRE (Network Virtualization - Generic Routing 
-    Encapsulation) using IPv4/IPv6 protocol number 47 
-    <xref target="RFC7637"/>.
-    </t></dd>
-   <dt>v:</dt>
-    <dd><t> 
-    The RLOCs listed in the AFI-encoded addresses in the next longword 
-    can accept VXLAN-GPE (Generic Protocol Extension) encapsulation 
-    using destination UDP port 4790 
-    <xref target="I-D.ietf-nvo3-vxlan-gpe"/>.
-    </t></dd>
-   <dt>V:</dt>
-    <dd><t> 
-    The RLOCs listed in the AFI-encoded addresses in the next longword 
-    can accept Virtual eXtensible Local Area Network (VXLAN) 
-    encapsulation using destination UDP port 4789 
-    <xref target="RFC7348"/>.
-    </t></dd>
-   <dt>l:</dt>
-    <dd><t>
-    The RLOCs listed in the AFI-encoded addresses in the next longword 
-    can accept Layer 2 LISP encapsulation using destination UDP port 
-    8472 <xref target="I-D.smith-lisp-layer2"/>.
-    </t></dd>
-   <dt>L:</dt>
-    <dd><t> 
-    The RLOCs listed in the AFI-encoded addresses in the next longword 
-    can accept Layer 3 LISP encapsulation using destination UDP port 
-    4341 <xref target="RFC9300"/>.
-    </t></dd>
-  </dl>
-  <t> 
-  Usage: This encoding can be used in RLOC-records in Map-Request, 
-  Map-Reply, Map-Register, and Map-Notify messages.
-  </t>
-</section>
-</section>
-
 <section>
  <name>Security Considerations</name>
  <t>
- This document is classified as Experimental. The LCAF encodings 
- defined in this document are intended to be used with their 
- corresponding use cases and in self-contained environments. Users 
- should carefully consider how the <xref target="RFC9303"/> threat 
- model applies to their particular use case.
+ The LCAF encodings defined in this document are intended to be used 
+ with their corresponding use cases and in self-contained environments. 
+ Users should carefully consider how the <xref target="RFC9303"/> 
+ threat model applies to their particular use case.
  </t>
  <t>
  The use of the Geo-Coordinates LCAF Type may raise physical privacy 
@@ -1814,16 +1666,17 @@
  </t>
  <t>
  The LISP LCAF Type field is an 8-bit field specific to the LISP 
- Canonical Address Format encodings. IANA has created a new registry 
- (as outlined in <xref target="RFC8126"/>) titled "LISP Canonical 
- Address Format (LCAF) Types". Initial values for the "LISP Canonical 
- Address Format (LCAF) Types" registry are given below. Future 
+ Canonical Address Format encodings. Because this document obsoletes 
+ RFC 8060, IANA is asked to change all registration information that 
+ references <xref target="RFC8060"/> to instead reference [[this RFC]].
+ IANA is also requested to update the contents of the "LISP Canonical 
+ Address Format (LCAF) Types" registry as indicated below. Future 
  assignments are to be made using the Specification Required policy 
  <xref target="RFC8126"/>. Assignments consist of a LISP LCAF Type Name 
  and its associated value:
  </t>
- <table anchor="tab-initial-values-in-the-lisp-canonical-address-format-lcaf-types-registry" align="center">
-  <name>Initial Values in the "LISP Canonical Address Format (LCAF) Types" Registry</name>
+ <table anchor="values-in-the-lisp-canonical-address-format-lcaf-types-registry" align="center">
+  <name>"LISP Canonical Address Format (LCAF) Types" Registry</name>
   <thead>
    <tr>
     <th align="left"> Value</th>
@@ -1853,13 +1706,28 @@
     <td align="left"><xref target="encodings"/></td>
    </tr>
    <tr>
+    <td align="left">4</td>
+    <td align="left">Application Data</td>
+    <td align="left"><xref target="encodings"/></td>
+   </tr>
+   <tr>
     <td align="left">5</td>
-    <td align="left">Geo-Coordinates</td>
+    <td align="left">Deprecated</td>
+    <td align="left"><xref target="I-D.ietf-lisp-geo"/></td>
+   </tr>
+   <tr>
+    <td align="left">6</td>
+    <td align="left">Opaque Key</td>
     <td align="left"><xref target="encodings"/></td>
    </tr>
    <tr>
     <td align="left">7</td>
     <td align="left">NAT-Traversal</td>
+    <td align="left"><xref target="encodings"/></td>
+   </tr>
+   <tr>
+    <td align="left">8</td>
+    <td align="left">Nonce Locator</td>
     <td align="left"><xref target="encodings"/></td>
    </tr>
    <tr>
@@ -1887,6 +1755,21 @@
     <td align="left">Replication List Entry</td>
     <td align="left"><xref target="encodings"/></td>
    </tr>
+   <tr>
+    <td align="left">14</td>
+    <td align="left">JSON Data Model</td>
+    <td align="left"><xref target="encodings"/></td>
+   </tr>
+   <tr>
+    <td align="left">15</td>
+    <td align="left">Key/Value Address Pair</td>
+    <td align="left"><xref target="encodings"/></td>
+   </tr>
+   <tr>
+    <td align="left">16</td>
+    <td align="left">Encapsulation Format</td>
+    <td align="left"><xref target="encodings"/></td>
+   </tr>
   </tbody>
  </table>
 </section>
@@ -1902,12 +1785,8 @@
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1035.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1918.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3232.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3986.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6280.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6836.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7348.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7637.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8126.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8259.xml"/>
@@ -1933,6 +1812,7 @@
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.coras-lisp-re.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ermagan-lisp-nat-traversal.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-intarea-gue.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-lisp-geo.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-lisp-eid-mobility.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-lisp-te.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-nvo3-vxlan-gpe.xml"/>
@@ -1947,23 +1827,14 @@
          </front>
         </reference>
 
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6830.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6836.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7348.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7637.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8060.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8061.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8111.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8926.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9303.xml"/>
-
-        <reference anchor="WGS-84" target="http://earth-info.nga.mil/GandG/publications/tr8350.2/wgs84fin.pdf">
-        <front>
-        <title>Department of Defense World Geodetic System 1984</title>
-        <author>
-        <organization>National Imagery and Mapping Agency</organization>
-        </author>
-        <date month="January" year="2000"/>
-        </front>
-        <seriesInfo name="NIMA" value="TR8350.2"/>
-        </reference>
 
       </references>
     </references>
@@ -2026,6 +1897,28 @@
      </t>
     </section>
 
+    <section numbered="false">
+     <name>Version -01</name>
+     <ul>
+      <li>Incorporated Errata ID: 7252 
+      (https://www.rfc-editor.org/errata/eid7252).</li>
+      <li>Eliminated mentions of "experiment" and "unapproved" by 
+      moving LCAFs defined in the section titled "Experimental LISP 
+      Canonical Address Applications" into the main section 
+      (<xref target="main"/>).</li>
+      <li>Eliminated Geo-Coordinates.</li>
+      <li>Updated the IANA Considerations table with the full list of 
+      Types.</li>
+      <li>Eliminated the reference to RFC 3232 ("RFC 1700 Replaced by 
+      On-line Database"), which didn't provide context for AFI.</li>
+      <li>Moved the reference to RFC 6836 to be Informative; in the 
+      text it is used as an example.  This addresses the downref.</li>
+      <li>To avoid a downref, moved the references to RFC 7348 and 
+      RFC 7637 to be Informative.  This is inline with the other 
+      references for similar functionality in the Encapsulation Format 
+      LCAF (<xref target="encap"/>)</li>
+     </ul>
+    </section>
    </section>
     
  </back>

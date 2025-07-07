@@ -16,7 +16,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="std"
-  docName="draft-ietf-lisp-rfc8060bis-01"
+  docName="draft-ietf-lisp-rfc8060bis-02"
   ipr="trust200902"
   obsoletes="8060"
   updates=""
@@ -27,7 +27,7 @@
   <front>
     <title abbrev="LISP Canonical Address Format">LISP Canonical Address Format (LCAF)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-ietf-lisp-rfc8060bis-01"/>
+    <seriesInfo name="Internet-Draft" value="draft-ietf-lisp-rfc8060bis-02"/>
    
     <author fullname="Alvaro Retana" initials="A." surname="Retana" role="editor">
       <organization>Futurewei Technologies, Inc.</organization>
@@ -275,7 +275,8 @@
       <dt>Type 2:</dt><dd><t>Instance ID</t></dd>
       <dt>Type 3:</dt><dd><t>AS Number</t></dd>
       <dt>Type 4:</dt><dd><t>Application Data</t></dd>
-      <dt>Type 5:</dt><dd><t>Geo-Coordinates</t></dd>
+      <dt>Type 5:</dt><dd><t>Deprecated 
+       <xref target="I-D.ietf-lisp-geo"/></t></dd>
       <dt>Type 6:</dt><dd><t>Opaque Key</t></dd>
       <dt>Type 7:</dt><dd><t>NAT-Traversal</t></dd>
       <dt>Type 8:</dt><dd><t>Nonce Locator</t></dd>
@@ -1572,61 +1573,7 @@
     receiver should parse each AFI element no matter what the ordering.
     </t>
     <t>
-    Compatibility Mode Address Format:
-    </t>
-    <artwork type="ascii-art">
-     <![CDATA[ 
- 0                   1                   2                   3
- 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|           AFI = 16387         |     Rsvd1     |     Flags     |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|   Type = 1    |     Rsvd2     |           Length              |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|           AFI = 16387         |     Rsvd1     |     Flags     |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|   Type = 5    |     Rsvd2     |           Length2             |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|N|     Latitude Degrees        |    Minutes    |    Seconds    |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|E|     Longitude Degrees       |    Minutes    |    Seconds    |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                            Altitude                           |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|              AFI = 0          |           AFI = 1             |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                          IPv4 Address                         |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      ]]>
-    </artwork>
-    <dl newline="false" spacing="normal" indent="3">
-     <dt>Length:</dt>
-      <dd><t> 
-      length in bytes starting and including the byte after this Length 
-      field. 
-      </t></dd>
-     <dt>Length2:</dt>
-      <dd><t> 
-      length in bytes starting and including the byte after this 
-      Length2 field. 
-      </t></dd>
-    </dl>
-    <t> 
-    If a system does not recognized the Geo-Coordinates LCAF Type that 
-    is accompanying a locator address, an encoder can include the Geo- 
-    Coordinates LCAF Type embedded in an AFI List LCAF Type where the 
-    AFI in the Geo-Coordinates LCAF Type is set to 0 and the AFI 
-    encoded next in the list is encoded with a valid AFI value to 
-    identify the locator address.
-    </t>
-    <t> 
-    A LISP system is required to support the AFI List LCAF Type to use 
-    this procedure. It would skip over 10 bytes of the Geo-Coordinates 
-    LCAF Type to get to the locator address encoding (an IPv4 locator 
-    address). A LISP system that does support the Geo-Coordinates LCAF 
-    Type can support parsing the locator address within the Geo- 
-    Coordinates LCAF Type encoding or in the locator encoding that 
-    follows in the AFI List LCAF Type.
+    [ToDo: Describe a new use case.]
     </t>
 </section>
 
@@ -1641,13 +1588,6 @@
  with their corresponding use cases and in self-contained environments. 
  Users should carefully consider how the <xref target="RFC9303"/> 
  threat model applies to their particular use case.
- </t>
- <t>
- The use of the Geo-Coordinates LCAF Type may raise physical privacy 
- issues. Care should be taken when configuring the mapping system to 
- use specific policy parameters so geolocation information is not 
- returned gratuitously. It is recommended that any documents that 
- specify the use of the Geo-Coordinates LCAF Type should consider the applicability of RFC 6280 (BCP 160) <xref target="RFC6280"/> for location-based privacy protection.
  </t>
  <t> 
  Additional privacy concerns have arisen since publication of BCP 160, 
@@ -1786,7 +1726,6 @@
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1918.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3986.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6280.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8126.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8259.xml"/>
@@ -1919,6 +1858,13 @@
       LCAF (<xref target="encap"/>)</li>
      </ul>
     </section>
+
+    <section numbered="false">
+     <name>Version -02</name>
+     <ul>
+      <li>Eliminated a couple of remaining mentions of Geo-Coordinates.</li>
+     </ul>
+    </section> 
    </section>
     
  </back>

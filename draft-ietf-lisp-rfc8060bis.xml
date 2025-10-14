@@ -1621,27 +1621,27 @@
    <tr>
     <td align="left">0</td>
     <td align="left">Null Body</td>
-    <td align="left"><xref target="encodings"/></td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
    <tr>
     <td align="left">1</td>
     <td align="left">AFI List</td>
-    <td align="left"><xref target="encodings"/></td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
    <tr>
     <td align="left">2</td>
     <td align="left">Instance ID</td>
-    <td align="left"><xref target="encodings"/></td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
    <tr>
     <td align="left">3</td>
     <td align="left">AS Number</td>
-    <td align="left"><xref target="encodings"/></td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
    <tr>
     <td align="left">4</td>
     <td align="left">Application Data</td>
-    <td align="left"><xref target="encodings"/></td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
    <tr>
     <td align="left">5</td>
@@ -1651,57 +1651,57 @@
    <tr>
     <td align="left">6</td>
     <td align="left">Opaque Key</td>
-    <td align="left"><xref target="encodings"/></td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
    <tr>
     <td align="left">7</td>
     <td align="left">NAT-Traversal</td>
-    <td align="left"><xref target="encodings"/></td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
    <tr>
     <td align="left">8</td>
     <td align="left">Nonce Locator</td>
-    <td align="left"><xref target="encodings"/></td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
    <tr>
     <td align="left">9</td>
     <td align="left">Multicast Info</td>
-    <td align="left"><xref target="encodings"/></td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
    <tr>
     <td align="left">10</td>
     <td align="left">Explicit Locator Path</td>
-    <td align="left"><xref target="encodings"/></td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
    <tr>
     <td align="left">11</td>
     <td align="left">Security Key</td>
-    <td align="left"><xref target="encodings"/></td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
    <tr>
     <td align="left">12</td>
     <td align="left">Source/Dest Key</td>
-    <td align="left"><xref target="encodings"/></td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
    <tr>
     <td align="left">13</td>
     <td align="left">Replication List Entry</td>
-    <td align="left"><xref target="encodings"/></td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
    <tr>
     <td align="left">14</td>
     <td align="left">JSON Data Model</td>
-    <td align="left"><xref target="encodings"/></td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
    <tr>
     <td align="left">15</td>
     <td align="left">Key/Value Address Pair</td>
-    <td align="left"><xref target="encodings"/></td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
    <tr>
     <td align="left">16</td>
     <td align="left">Encapsulation Format</td>
-    <td align="left"><xref target="encodings"/></td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
   </tbody>
  </table>

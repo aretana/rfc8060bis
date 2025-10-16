@@ -82,7 +82,7 @@
       <name>Introduction</name>
       <t>
       The LISP architecture and protocol <xref target="RFC9300"/> 
-      <xref target="RFC9301"/> introduces two new numbering spaces: 
+      <xref target="RFC9301"/> introduces two namespaces: 
       Endpoint Identifiers (EIDs) and Routing Locators (RLOCs). To 
       provide flexibility for current and future applications, these 
       values can be encoded in LISP control messages using a general 
@@ -90,7 +90,7 @@
       value fields.
       </t>
       <t>
-      Currently defined AFIs include IPv4 and IPv6 addresses, which are 
+      The defined AFIs include IPv4 and IPv6 addresses, which are 
       formatted according to code-points assigned in the "Address 
       Family Numbers" registry <xref target="AFN"/> as follows:
       </t>
@@ -129,16 +129,15 @@
       ]]>
       </artwork>
       <t> 
-      This document describes the currently defined AFIs that LISP uses 
+      This document describes the AFIs used by LISP 
       along with their encodings and introduces the LISP Canonical 
       Address Format (LCAF) that can be used to define the 
       LISP-specific encodings for arbitrary AFI values.
       </t>
       <t> 
       Specific detailed uses for the LCAF Types defined in this 
-      document may be found in separate use-case documents, for example 
-      [ToDo: add references here or in the specific sections]. The same 
-      LCAF Type may be used by more than one use-case document.
+      document may be found in separate use-case documents. The same 
+      LCAF Type may be used by more than one use-case.
       </t>
       <t>
       This document obsoletes <xref target="RFC8060"/>.
@@ -162,55 +161,9 @@
 
       <section>
         <name>Definition of Terms</name>
-        <dl newline="true" spacing="normal" indent="3">
-         <dt>Address Family Identifier (AFI):</dt>
-         <dd><t> 
-          a term used to describe an address encoding in a packet. 
-          Address families are defined for IPv4 and IPv6. See 
-          <xref target="AFN"/> for details. The reserved AFI value of 0 
-          is used in this specification to indicate an unspecified 
-          encoded address where the length of the address is 0 bytes 
-          following the 16-bit AFI value of 0.
-         </t></dd>
-         <dt>Unspecified Address Format:</dt>
-          <dd/></dl>
-          <artwork type="ascii-art" align="left">
-       <![CDATA[ 
- 0                   1                   2                   3 
- 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
-|            AFI = 0            |      <no address follows> 
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                              
-       ]]>
-          </artwork>
-        <dl newline="false" spacing="normal" indent="3">
-         <dt>Endpoint ID (EID):</dt>
-          <dd><t> 
-          a 32-bit (for IPv4) or 128-bit (for IPv6) value used in the 
-          source and destination address fields of the first (most 
-          inner) LISP header of a packet. The host obtains a 
-          destination EID the same way it obtains a destination address 
-          today, for example, through a DNS lookup or SIP exchange. The 
-          source EID is obtained via existing mechanisms used to set a 
-          host's "local" IP address. An EID is allocated to a host from 
-          an EID-prefix block associated with the site where the host 
-          is located. An EID can be used by a host to refer to other 
-          hosts. 
-          </t></dd>
-         <dt>Routing Locator (RLOC):</dt>
-          <dd><t> 
-          the IPv4 or IPv6 address of an Egress Tunnel Router (ETR). It 
-          is the output of an EID-to-RLOC mapping lookup. An EID maps 
-          to one or more RLOCs. Typically, RLOCs are numbered from 
-          topologically aggregatable blocks that are assigned to a site 
-          at each point to which it attaches to the global Internet; 
-          where the topology is defined by the connectivity of provider 
-          networks, RLOCs can be thought of as Provider-Assigned (PA) 
-          addresses. Multiple RLOCs can be assigned to the same ETR 
-          device or to multiple ETR devices at a site. 
-          </t></dd>
-        </dl>
-
+        <t>
+         Readers are expected to be familiar with the terminology defined in <xref target="RFC9300"/>.
+        </t>
       </section>
     </section>
     
@@ -225,11 +178,8 @@
       The AFI definitions in <xref target="AFN"/> only allocate 
       code-points for the AFI value itself. The length of the address 
       or entity that follows is not defined and is implied based on 
-      conventional experience. When LISP uses LCAF definitions from 
-      this document, the AFI-based address lengths are specified in 
-      this document. When new LCAF definitions are defined in other 
-      use-case documents, the AFI-based address lengths for any new 
-      AFI-encoded addresses are specified in those documents.
+      conventional experience. When LISP uses LCAF definitions,
+      the AFI-based address lengths are specified based on the Type.
       </t>
       <t> 
       The first 6 bytes of a LISP Canonical Address are followed by a 
@@ -244,46 +194,35 @@
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
 |    Type       |     Rsvd2     |            Length             | 
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
-|                             . . .                             | 
+|                     . . . (Payload) . . .                     |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ 
       ]]>
       </artwork>
       <dl newline="false" spacing="normal" indent="3">
-       <dt>Rsvd1/Rsvd2:</dt>
+       <dt>Rsvd1:</dt>
         <dd><t> 
-        these 8-bit fields are reserved for future use and MUST be 
+        this 8-bit field is reserved for future use and MUST be 
         transmitted as 0 and ignored on receipt. 
         </t></dd>
-      <dt>Flags:</dt>
-       <dd><t> 
-       this 8-bit field is for future definition and use. For now, set 
-       to zero on transmission and ignored on receipt. 
+       <dt>Flags:</dt>
+        <dd><t> 
+        this 8-bit field is for future definition and use. It MUST be set 
+        to zero on transmission and ignored on receipt. 
        </t></dd>
-      <dt>Type:</dt>
-       <dd><t> this 8-bit field is specific to the LISP Canonical 
-       Address Format encodings.
+       <dt>Type:</dt>
+        <dd><t> indicates the Type of the LISP Canonical 
+       Address Format encodings. The values are summarized in 
+       <xref target="values-in-the-lisp-canonical-address-format-lcaf-types-registry"/>.
+       Unrecognized Types MUST be silently ignored.
        </t></dd>
-      <dt>Type 0:</dt><dd><t>Null Body</t></dd>
-      <dt>Type 1:</dt><dd><t>AFI List</t></dd>
-      <dt>Type 2:</dt><dd><t>Instance ID</t></dd>
-      <dt>Type 3:</dt><dd><t>AS Number</t></dd>
-      <dt>Type 4:</dt><dd><t>Application Data</t></dd>
-      <dt>Type 5:</dt><dd><t>Deprecated 
-       <xref target="I-D.ietf-lisp-geo"/></t></dd>
-      <dt>Type 6:</dt><dd><t>Opaque Key</t></dd>
-      <dt>Type 7:</dt><dd><t>NAT-Traversal</t></dd>
-      <dt>Type 8:</dt><dd><t>Nonce Locator</t></dd>
-      <dt>Type 9:</dt><dd><t>Multicast Info</t></dd>
-      <dt>Type 10:</dt><dd><t>Explicit Locator Path</t></dd>
-      <dt>Type 11:</dt><dd><t>Security Key</t></dd>
-      <dt>Type 12:</dt><dd><t>Source/Dest Key</t></dd>
-      <dt>Type 13:</dt><dd><t>Replication List Entry</t></dd>
-      <dt>Type 14:</dt><dd><t>JSON Data Model</t></dd>
-      <dt>Type 15:</dt><dd><t>Key/Value Address Pair</t></dd>
-      <dt>Type 16:</dt><dd><t>Encapsulation Format</t></dd>
+      <dt>Rsvd2:</dt>
+        <dd><t> 
+        these 8-bit fields are reserved for future use and MUST be 
+        transmitted as 0 and ignored on receipt. This field is Type-specific.
+        </t></dd>
       <dt>Length:</dt>
        <dd><t> 
-       this 16-bit field is in units of bytes and covers all of the 
+       this 16-bit field indicates the length in bytes of the 
        LISP Canonical Address payload, starting and including the byte 
        after the Length field. When including the AFI, an LCAF-encoded 
        address will have a minimum length of 8 bytes when the Length 
@@ -298,9 +237,9 @@
       <xref target="RFC9301"/> states RLOC-records based on an IP 
       address are sorted when encoded in control messages, so the 
       locator-set has consistent order across all xTRs for a given EID. 
-      The sort order is based on sort-key {afi, RLOC-address}. When an 
+      The sort order is based on sort-key {AFI, RLOC-address}. When an 
       RLOC based on an IP address is LCAF encoded, the sort-key is 
-      {afi, LCAF-Type}. Therefore, when a locator-set has a mix of AFI 
+      {AFI, LCAF-Type, RLOC-address}. Therefore, when a locator-set has a mix of AFI 
       records and LCAF records, they are ordered from smallest to 
       largest AFI value.
       </t>
@@ -309,8 +248,12 @@
     <section anchor="main">
      <name>LISP Canonical Address Applications</name>
       <t> 
-      The following sections define the LCAF for the currently defined 
+      The following sections format and sample applications for the currently defined 
       set of Type values.
+      </t>
+      <t>
+      Note that the Type 0 is used to indicate a "Null Body", which requires the Length 
+      value to be set to 0. If the Length value is not 0, the Type 0 MUST be silently ignored.
       </t>
 
      <section>
@@ -1705,6 +1648,10 @@
    </tr>
   </tbody>
  </table>
+ <t>
+ IANA is also requested to update the description for AFI 16387 in the
+ "Address Family Numbers" registry <xref target="AFN"/> to reference [[this RFC]].
+ </t>
 </section>
 
   </middle>

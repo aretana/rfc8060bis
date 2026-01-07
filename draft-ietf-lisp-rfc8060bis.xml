@@ -65,7 +65,7 @@
       </address>
     </author>
 
-    <date year="2025"/>
+    <date year="2026"/>
     <!-- On draft subbmission:
          * If only the current year is specified, the current day and month will be used.
          * If the month and year are both specified and are the current ones, the current day will
@@ -562,21 +562,10 @@
      <section anchor="IID">
       <name>The Instance ID LCAF Type</name>
       <t>
-      The Instance ID LCAF Type (Type 2) is used to carry a 24-bit 
-      Instance ID along with an AFI-based address.
-      </t>
-      <t>
-      When multiple organizations inside of a LISP site are using 
-      private addresses <xref target="RFC1918"/> <xref target="RFC4193"/> as EID prefixes, their 
-      address spaces must remain segregated due to possible address 
-      duplication. The Instance ID aids in 
-      making the entire AFI-based address unique.
-      </t>
-      <t> 
-      Another use for the Instance ID LISP Canonical Address Format is 
-      in creating multiple segmented VPNs inside of a LISP site where 
-      keeping EID-prefix-based subnets is desirable.  For example, see
-      <xref target="I-D.ietf-lisp-vpn"/>.
+      The Instance ID LCAF Type (Type 2) is used to carry an Instance ID
+      along with an AFI-based address. The Instance ID can be used when virtualization 
+      and segmentation are needed; see see <xref section="8" target="RFC9300"/> and 
+      <xref target="I-D.ietf-lisp-vpn"/> for more details.
       </t>
       <figure align="center">
       <name>Instance ID LISP Canonical Address Format</name>
@@ -611,9 +600,7 @@
         </t></dd>
        <dt>Instance ID:</dt>
         <dd><t> 
-        the low-order 24 bits that can go into a LISP data header when 
-        the I bit is set <xref target="RFC9300"/>. The high-order 8 bits 
-        are ignored.
+        32-bit unstructured field.
         </t></dd>
        <dt>AFI:</dt>
         <dd><t>
@@ -1709,10 +1696,8 @@
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.smith-lisp-layer2.xml"/>
 
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1035.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.1918.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2475.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.3986.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4193.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4607.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6832.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6836.xml"/>

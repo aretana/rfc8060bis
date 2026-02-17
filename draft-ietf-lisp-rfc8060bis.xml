@@ -16,9 +16,9 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="std"
-  docName="draft-ietf-lisp-rfc8060bis-03"
+  docName="draft-ietf-lisp-rfc8060bis-04"
   ipr="trust200902"
-  obsoletes="8060"
+  obsoletes="8060,9306"
   updates=""
   submissionType="IETF"
   xml:lang="en"
@@ -27,7 +27,7 @@
   <front>
     <title abbrev="LISP Canonical Address Format">LISP Canonical Address Format (LCAF)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-ietf-lisp-rfc8060bis-03"/>
+    <seriesInfo name="Internet-Draft" value="draft-ietf-lisp-rfc8060bis-04"/>
    
     <author fullname="Alvaro Retana" initials="A." surname="Retana" role="editor">
       <organization>Futurewei Technologies, Inc.</organization>
@@ -85,7 +85,7 @@
       encoding of lookup keys for the LISP Mapping Database System.
       </t>
       <t>
-      This document obsoletes RFC 8060.
+      This document obsoletes RFC 8060 and RFC 9306.
       </t>
     </abstract>
  
@@ -152,7 +152,7 @@
       LCAF Type may be used by more than one use-case.
       </t>
       <t>
-      This document obsoletes <xref target="RFC8060"/>.
+      This document obsoletes <xref target="RFC8060"/> and <xref target="RFC9306"/>.
       </t>
     
     </section>
@@ -270,6 +270,12 @@
        Address Format encodings. The values are summarized in 
        <xref target="values-in-the-lisp-canonical-address-format-lcaf-types-registry"/> (<xref target="IANA"/>).
        Unrecognized Types MUST be silently ignored.
+       </t>
+       <t>
+       If all Locators are ignored, this is equivalent to a LISP control 
+       message with Locator Count = 0, as described in [RFC9301]. If an 
+       EID-Prefix only contains unrecognized LCAF types, the LISP control 
+       message MUST be dropped and the event MUST be logged.
        </t></dd>
       <dt>Rsvd2:</dt>
         <dd><t> 
@@ -1491,6 +1497,66 @@
     </dl>
   </section>
 
+   <section anchor="vendor-lcaf">
+    <name>The Vendor-Specific LCAF Type</name>
+    <t>
+    The Vendor-Specific LCAF (Type 255) enables organizations to have
+    implementation-specific encodings for LCAF addresses. It relies on using
+    the IEEE Organizationally Unique Identifier (OUI) <xref target="IEEE.802"/>
+    to prevent collisions across vendors or organizations using the LCAF.
+    </t>
+    <figure align="center">
+    <name>Vendor-Specific LISP Canonical Address Format</name>
+    <artwork type="ascii-art">
+      <![CDATA[
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|           AFI = 16387         |     Rsvd1     |     Flags     |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|   Type = 255  |     Rsvd2     |            Length             |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|   Reserved    |    Organizationally Unique Identifier (OUI)   |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                        Internal format...                     |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    ]]>
+    </artwork></figure>
+    <dl newline="false" spacing="normal" indent="3">
+     <dt>Reserved:</dt>
+      <dd><t>
+      this field is reserved for future use and MUST be
+      transmitted as 0 and ignored on receipt.
+      </t></dd>
+     <dt>Organizationally Unique Identifier (OUI):</dt>
+      <dd><t>
+      a 24-bit field that carries an OUI or Company ID (CID) assigned by the
+      IEEE Registration Authority (RA) as defined by the IEEE Std 802
+      <xref target="IEEE.802"/>
+      </t></dd>
+     <dt>Internal format:</dt>
+      <dd><t>
+       variable-length field that each vendor or organization can define to use
+       with their specific OUI.
+      </t></dd>
+     </dl>
+     <t>
+     The Vendor-Specific LCAF type <bcp14>SHOULD NOT</bcp14> be used in
+     deployments where different organizations interoperate. However, there may
+     be cases where two (or more) organizations share a common deployment on
+     which they explicitly and mutually agree to use a particular Vendor-
+     Specific LCAF. In that case, the organizations involved need to carefully
+     assess the interoperability concerns for that particular deployment. It is
+     <bcp14>NOT RECOMMENDED</bcp14> to use an OUI not assigned to an
+     organization.
+     </t>
+     <t>
+     If a LISP device receives a LISP message containing a Vendor-Specific LCAF
+     with an OUI that it does not understand, it <bcp14>MUST</bcp14> silently
+     ignore it.
+     </t>
+    </section>
+
     </section>
 
 
@@ -1511,6 +1577,11 @@
  Implementers and operators should be aware of this when deploying new LCAF Types.
  </t>
  <t>
+ This document also enables organizations to define new LCAFs for their internal 
+ use. It is the responsibility of these organizations to properly assess the 
+ security implications of the formats they define.
+ </t>
+ <t>
   Care should be taken to protect against the adverse use of information that
   should remain private or contained by ensuring policy controls are in place.  
   Any such mechanism is out of scope for this document.
@@ -1526,8 +1597,8 @@
  <name>IANA Considerations</name>
  <t>
  Because this document obsoletes 
- RFC 8060, IANA is asked to change all registration information that 
- references <xref target="RFC8060"/> to instead reference [[this RFC]].
+ RFC 8060 and RFC 9306, IANA is asked to change all registration information that 
+ references <xref target="RFC8060"/> or <xref target="RFC9306"/> to instead reference [[this RFC]].
  </t>
  <t>
  IANA is also requested to update the contents of the "LISP Canonical 
@@ -1631,6 +1702,11 @@
     <td align="left">Encapsulation Format</td>
     <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
+   <tr>
+    <td align="left">255</td>
+    <td align="left">Vendor-Specific</td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
+   </tr>
   </tbody>
  </table>
  <t>
@@ -1646,9 +1722,19 @@
       <name>References</name>
       <references>
         <name>Normative References</name>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-intarea-gue.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-lisp-8111bis.xml"/>
         
+        <reference anchor="IEEE.802" target="https://ieeexplore.ieee.org/document/6847097">
+         <front>
+          <title>IEEE Standard for Local and Metropolitan Area Networks: Overview and Architecture</title>
+          <author>
+            <organization>IEEE</organization>
+          </author>
+          <date month="July" year="2014"/>
+         </front>
+         <seriesInfo name="DOI" value="10.1109/IEEESTD.2014.6847097"/>
+         <seriesInfo name="IEEE" value="Std 802"/>
+        </reference>
+
         <reference anchor="JSON-BINARY" target="http://ubjson.org">
          <front>
           <title>Universal Binary JSON Specification</title>
@@ -1687,6 +1773,8 @@
 
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.coras-lisp-re.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.farinacci-lisp-lispers-net-nat.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-intarea-gue.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-lisp-8111bis.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-lisp-nat-traversal.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-lisp-geo.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-lisp-eid-mobility.xml"/>
@@ -1707,6 +1795,7 @@
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7835.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8060.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8061.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9306.xml"/>
 
       </references>
     </references>
@@ -1721,8 +1810,8 @@
       In no particular order, the authors would like to thank Vince Fuller, 
       Gregg Schudel, Jesper Skriver, Luigi Iannone, Isidor Kouvelas, Sander 
       Steffann, Victor Moreno, Parantap Lahiri, Michael Kowal, Fabio Maino, 
-      Vina Ermagan, Albert Cabellos-Aparicio, Michiel Blokzijl, Terry Manderson, 
-      Stephen Farrell, and Deborah Brungard.
+      Albert Cabellos-Aparicio, Michiel Blokzijl, Terry Manderson, 
+      Stephen Farrell, Deborah Brungard, and Joel Halpern.
       </t>
     </section>
     
@@ -1738,6 +1827,24 @@
             <email>dmm@1-4-5.net</email>
          </address>
       </contact>
+      <contact fullname="Vina Ermagan" initials="V." surname="Ermagan">
+         <organization>Google, Inc.</organization>
+         <address>
+            <email>ermagan@gmail.com</email>
+         </address>
+       </contact>
+       <contact fullname="Anton Smirnov" initials="A." surname="Smirnov">
+         <organization>Cisco</organization>
+         <address>
+            <email>asmirnov@cisco.com</email>
+         </address>
+       </contact>
+       <contact fullname="Vrushali Ashtaputre" initials="V." surname="Ashtaputre">
+         <organization>Cisco</organization>
+         <address>
+            <email>vrushali@cisco.com</email>
+         </address>
+        </contact>
     </section>
 
    <section numbered="false" removeInRFC="true">
@@ -1792,6 +1899,12 @@
      </ul>
      </section>
 
+    <section numbered="false">
+     <name>Version -04</name>
+     <ul>
+      <li>Merged the contents of RFC 9306 into this document.</li>     
+     </ul>
+    </section>
    </section>
     
  </back>

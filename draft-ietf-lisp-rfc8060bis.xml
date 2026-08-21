@@ -16,7 +16,7 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="std"
-  docName="draft-ietf-lisp-rfc8060bis-04"
+  docName="draft-ietf-lisp-rfc8060bis-05"
   ipr="trust200902"
   obsoletes="8060,9306"
   updates=""
@@ -27,7 +27,7 @@
   <front>
     <title abbrev="LISP Canonical Address Format">LISP Canonical Address Format (LCAF)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-ietf-lisp-rfc8060bis-04"/>
+    <seriesInfo name="Internet-Draft" value="draft-ietf-lisp-rfc8060bis-05"/>
    
     <author fullname="Alvaro Retana" initials="A." surname="Retana" role="editor">
       <organization>Futurewei Technologies, Inc.</organization>
@@ -610,10 +610,7 @@
         </t></dd>
        <dt>AFI:</dt>
         <dd><t>
-        as specified in <xref target="AFIList"/>. Only AFI values for the 
-        Unspecified Encoded Address (0), IPv4 (1), and IPv6 (2) are valid 
-        in this LCAF Type. Any other AFI value is invalid and the LCAF Type 
-        MUST be silently ignored.
+        as specified in <xref target="AFIList"/>.
         </t></dd>
        <dt>Address:</dt>
         <dd><t> 
@@ -1005,8 +1002,8 @@
      </t></dd>
     <dt>AFI:</dt>
       <dd><t>
-      as specified in <xref target="AFIList"/>. Only AFI values for IPv4 (1) and 
-      IPv6 (2) are valid in this LCAF Type. Any other AFI value is invalid and the 
+      as specified in <xref target="AFIList"/>. Only AFI values for IPv4 (1),
+      IPv6 (2), and 802 MAC Address (6) are valid in this LCAF Type. Any other AFI value is invalid and the 
       LCAF Type MUST be silently ignored. All the AFI fields MUST be the same. 
       Otherwise, the LCAF Type MUST be silently ignored. 
       </t></dd>
@@ -1081,8 +1078,8 @@
       </t></dd>
     <dt>AFI:</dt>
       <dd><t>
-      as specified in <xref target="AFIList"/>. Only AFI values for IPv4 (1) and 
-      IPv6 (2) are valid in this LCAF Type. Any other AFI value is invalid and the 
+      as specified in <xref target="AFIList"/>. Only AFI values for IPv4 (1),
+      IPv6 (2), and 802 MAC Address (6) are valid in this LCAF Type. Any other AFI value is invalid and the 
       LCAF Type MUST be silently ignored. All the AFI fields MUST be the same. 
       Otherwise, the LCAF Type MUST be silently ignored.
       </t></dd>
@@ -1427,7 +1424,7 @@
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |   Type = 16   |     Rsvd2     |             Length            |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                    Encapsulations               |U|G|N|v|V|l|L|
+|                         Encapsulations                        |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                AFI            |          Address ...          |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -1435,55 +1432,33 @@
     </artwork></figure>
     <dl newline="false" spacing="normal" indent="3">
      <dt>Encapsulations:</dt>
-      <dd><t> 
-      the bits in this field are reserved for future use and MUST be transmitted
-      as 0 and ignored on receipt.
-      </t></dd>
-     <dt>U:</dt>
-      <dd><t>
-      The RLOC listed in the Address field 
-      can accept Generic UDP Encapsulation (GUE) using 
-      destination UDP port 6080 <xref target="I-D.ietf-intarea-gue"/>.
-      </t></dd>
-     <dt>G:</dt>
-      <dd><t>
-      The RLOCs listed in the Address field 
-      can accept Geneve encapsulation using destination UDP 
-      port 6081 <xref target="RFC8926"/>.
-      </t></dd>
-     <dt>N:</dt>
-      <dd><t> 
-      The RLOCs listed in the Address field 
-      can accept NV-GRE (Network Virtualization - Generic 
-      Routing Encapsulation) using IPv4/IPv6 protocol number 47 
-      <xref target="RFC7637"/>.
-      </t></dd>
-     <dt>v:</dt>
-      <dd><t> 
-      The RLOCs listed in the Address field 
-      can accept VXLAN-GPE (Generic Protocol Extension) 
-      encapsulation using destination UDP port 4790 
-      <xref target="I-D.ietf-nvo3-vxlan-gpe"/>.
-      </t></dd>
-     <dt>V:</dt>
-      <dd><t> 
-      The RLOCs listed in the Address field 
-      can accept Virtual eXtensible Local Area Network (VXLAN) 
-      encapsulation using destination UDP port 4789 
-      <xref target="RFC7348"/>.
-      </t></dd>
-     <dt>l:</dt>
-      <dd><t>
-      The RLOCs listed in the Address field 
-      can accept Layer 2 LISP encapsulation using destination 
-      UDP port 8472 <xref target="I-D.smith-lisp-layer2"/>.
-      </t></dd>
-     <dt>L:</dt>
-      <dd><t> 
-      The RLOCs listed in the Address field 
-      can accept Layer 3 LISP encapsulation using destination 
-      UDP port 4341 <xref target="RFC9300"/>.
-      </t></dd>
+      <dd>
+      <t> 
+      bitfield containing the encapsulations supported by the listed RLOC.
+      </t>
+      <t>
+      Multipe bits can be set at a time. The election of the encapsulation 
+      to use is a local decision and outside the scope of this document. If 
+      no bits are set, the LCAF Type MUST be silently ignored. 
+      </t>
+      <t>
+      <xref target="encapsulation-formats-table"/> lists the currently assigned 
+      bits, their names and meanings; the bit position is illustraded below.
+      Any unassigned or unsupported bits MUST be transmitted as 0 and ignored on receipt.
+      </t></dd></dl>
+    <figure align="center">
+    <name>Encapsulations Bit Layout</name>
+    <artwork type="ascii-art">
+     <![CDATA[
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |n|                   Encapsulations              |U|G|N|v|V|l|L|
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      ]]>
+    </artwork></figure>
+  <dl newline="false" spacing="normal" indent="3">
+   
      <dt>AFI:</dt>
       <dd><t>
       as specified in <xref target="AFIList"/>. Only AFI values for IPv4 (1) and 
@@ -1600,6 +1575,13 @@
  RFC 8060 and RFC 9306, IANA is asked to change all registration information that 
  references <xref target="RFC8060"/> or <xref target="RFC9306"/> to instead reference [[this RFC]].
  </t>
+  <t>
+ IANA is also requested to update the description for AFI 16387 in the
+ "Address Family Numbers" registry <xref target="AFN"/> to reference [[this RFC]].
+ </t>
+
+ <section anchor="lcaf-types-registry">
+  <name>"LISP Canonical Address Format (LCAF) Types" Registry</name>
  <t>
  IANA is also requested to update the contents of the "LISP Canonical 
  Address Format (LCAF) Types" registry as indicated in <xref target="values-in-the-lisp-canonical-address-format-lcaf-types-registry"/>. Future 
@@ -1710,9 +1692,91 @@
   </tbody>
  </table>
  <t>
- IANA is also requested to update the description for AFI 16387 in the
- "Address Family Numbers" registry <xref target="AFN"/> to reference [[this RFC]].
+ Guidance for the Designated Experts <xref target="RFC8126"/>: The Designated Experts 
+ should evaluate registration requests for technical completeness, clarity, and 
+ consistency with the LISP architecture and intended use of the new LCAF. The Designated 
+ Experts may seek input from other subject-matter experts as appropriate, and and review 
+ by the LISP WG is required before approval. A request may be denied if the documentation 
+ is insufficient to evaluate the proposal or ensure interoperability, if the requested 
+ registration is inconsistent with the LISP architecture or would harm interoperability 
+ or deployed implementations, if it conflicts with ongoing IETF work, or if approval 
+ would not represent prudent use of the available registry space..
  </t>
+ </section>
+ <section anchor="encapsulation-formats-registry">
+  <name>"LISP Encapsulation Formats (LCAF Type 16)" Registry</name>
+  <t>
+  IANA is requested to create a new registry called "LISP Encapsulation Formats (LCAF Type 16)"
+  in the "Locator/ID Separation Protocol (LISP) Parameters" group. Future 
+  assignments are to be made using the Specification Required policy <xref target="RFC8126"/>.
+  Assignments consist of an encapsulation type and the name of the corresponding bit.
+  The initial assignemnts are as follows:
+  </t>
+  
+  <table anchor="encapsulation-formats-table" align="center">
+   <name>"LISP Encapsulation Formats (LCAF Type 16)" Registry</name>
+    <thead>
+      <tr>
+      <th align="left"> Bit</th>
+      <th align="left"> Encapsulation Type</th>
+      <th align="left"> Reference</th>
+      </tr>
+      </thead>
+    <tbody>
+      <tr>
+      <td align="left">0</td>
+      <td align="left">No Encapsulation (n-bit)</td>
+      <td align="left">[[this RFC],<xref target="encap"/>]</td>
+      </tr>
+      <tr>
+      <td align="left">25</td>
+      <td align="left">Generic UDP Encapsulation (GUE) (U-bit)</td>
+      <td align="left"><xref target="I-D.ietf-intarea-gue"/></td>
+      </tr>
+      <tr>
+      <td align="left">26</td>
+      <td align="left">Geneve (G-bit)</td>
+      <td align="left"><xref target="RFC8926"/></td>
+      </tr>
+      <tr>
+      <td align="left">27</td>
+      <td align="left">NV-GRE (N-bit)</td>
+      <td align="left"><xref target="RFC7637"/></td>
+      </tr>
+      <tr>
+      <td align="left">28</td>
+      <td align="left">VXLAN-GPE (v-bit)</td>
+      <td align="left"><xref target="I-D.ietf-nvo3-vxlan-gpe"/></td>
+      </tr>
+      <tr>
+      <td align="left">29</td>
+      <td align="left">VXLAN (V-bit)</td>
+      <td align="left"><xref target="RFC7348"/></td>
+      </tr>
+      <tr>
+      <td align="left">30</td>
+      <td align="left">Layer 2 LISP (l-bit)</td>
+      <td align="left"><xref target="I-D.smith-lisp-layer2"/></td>
+      </tr>
+      <tr>
+      <td align="left">31</td>
+      <td align="left">Layer 3 LISP (L-bit)</td>
+      <td align="left"><xref target="RFC9300"/></td>
+      </tr>
+    </tbody>
+  </table>
+   <t>
+   Guidance for the Designated Experts <xref target="RFC8126"/>: The Designated 
+   Experts should evaluate registration requests for technical completeness, 
+   clarity, and consistency of the new encapsulation. The Designated Expert may 
+   seek input from other subject-matter experts as appropriate, and review by 
+   the LISP WG is required before approval. A request may be denied if the documentation 
+   is insufficient to evaluate the proposal or the characteristics of the encapsulation, 
+   or to ensure interoperability; if it would harm interoperability or deployed 
+   implementations; or if approval would not represent prudent use of the available 
+   registry space.
+   </t>
+ </section>
 </section>
 
   </middle>
@@ -1749,7 +1813,6 @@
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8126.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8259.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8926.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9260.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9293.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9300.xml"/>
@@ -1795,6 +1858,7 @@
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7835.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8060.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8061.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8926.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9306.xml"/>
 
       </references>
@@ -1811,7 +1875,7 @@
       Gregg Schudel, Jesper Skriver, Luigi Iannone, Isidor Kouvelas, Sander 
       Steffann, Victor Moreno, Parantap Lahiri, Michael Kowal, Fabio Maino, 
       Albert Cabellos-Aparicio, Michiel Blokzijl, Terry Manderson, 
-      Stephen Farrell, Deborah Brungard, and Joel Halpern.
+      Stephen Farrell, Deborah Brungard, Joel Halpern, and Marc Portoles.
       </t>
     </section>
     
@@ -1905,6 +1969,17 @@
       <li>Merged the contents of RFC 9306 into this document.</li>     
      </ul>
     </section>
+
+    <section numbered="false">
+     <name>Version -05</name>
+     <ul>
+      <li>Updated the AFI support for LCAF Types 2, 9, and 10.</li>
+      <li>Defined a new No Encapsulation bit in the LCAF Type 16 Encapsulation Format.</li>
+      <li>Defined a new registry for the encapsulations in LCAF Type 16.</li>
+      <li>Updated the IANA Considerations section to reflect the new registry.</li>
+      <li>Added guidance for the Designated Experts.</li>
+      </ul>
+    </section>  
    </section>
     
  </back>

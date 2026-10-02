@@ -1099,7 +1099,8 @@
     <name>The Security Key LCAF Type</name>
     <t>
     The Security Key LCAF Type (Type 11) is used to carry
-    security key material when a locator in a locator-set has a security key associated with it.
+    security key material when an address (for example, a locator in a locator-set)
+    has a security key associated with it.
     See <xref target="I-D.ietf-lisp-8111bis"/> or <xref target="RFC8061"/> for an example.
     </t>
     <figure align="center">
@@ -1119,7 +1120,7 @@
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                        ... Key Material                       |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                AFI            |       Locator Address ...     |
+|                AFI            |           Address ...         |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      ]]>
     </artwork></figure>
@@ -1161,10 +1162,14 @@
       <dd><t>
       as specified in <xref target="AFIList"/>.
       </t></dd>
-    <dt>Locator Address:</dt>
+    <dt>Address:</dt>
      <dd><t> 
      this is the address (as specified in <xref target="AFIList"/>) 
-     that owns the encoded security key.
+     that owns the encoded security key. When the AFI identifies an
+     address that is not a locator (for example, a Distinguished Name or
+     an 802 MAC Address), the key is bound to the entity that the address
+     names. The specification that defines such a use
+     needs to describe how that binding is established and verified.
      </t></dd>
     </dl>
    </section>

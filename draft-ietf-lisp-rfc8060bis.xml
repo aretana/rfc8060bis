@@ -16,9 +16,9 @@
 <rfc
   xmlns:xi="http://www.w3.org/2001/XInclude"
   category="std"
-  docName="draft-ietf-lisp-rfc8060bis-05"
+  docName="draft-ietf-lisp-rfc8060bis-06"
   ipr="trust200902"
-  obsoletes="8060,9306"
+  obsoletes="8060,9306,10040"
   updates=""
   submissionType="IETF"
   xml:lang="en"
@@ -27,7 +27,7 @@
   <front>
     <title abbrev="LISP Canonical Address Format">LISP Canonical Address Format (LCAF)</title>
 
-    <seriesInfo name="Internet-Draft" value="draft-ietf-lisp-rfc8060bis-05"/>
+    <seriesInfo name="Internet-Draft" value="draft-ietf-lisp-rfc8060bis-06"/>
    
     <author fullname="Alvaro Retana" initials="A." surname="Retana" role="editor">
       <organization>Futurewei Technologies, Inc.</organization>
@@ -85,7 +85,7 @@
       encoding of lookup keys for the LISP Mapping Database System.
       </t>
       <t>
-      This document obsoletes RFC 8060 and RFC 9306.
+      This document obsoletes RFC 8060, RFC 9306, and RFC 10040.
       </t>
     </abstract>
  
@@ -152,7 +152,7 @@
       LCAF Type may be used by more than one use-case.
       </t>
       <t>
-      This document obsoletes <xref target="RFC8060"/> and <xref target="RFC9306"/>.
+      This document obsoletes <xref target="RFC8060"/>, <xref target="RFC9306"/>, and <xref target="RFC10040"/>.
       </t>
     
     </section>
@@ -1159,9 +1159,7 @@
       </t></dd>
      <dt>AFI:</dt>
       <dd><t>
-      as specified in <xref target="AFIList"/>. Only AFI values for IPv4 (1) and 
-      IPv6 (2) are valid in this LCAF Type. Any other AFI value is invalid and the 
-      LCAF Type MUST be silently ignored. 
+      as specified in <xref target="AFIList"/>.
       </t></dd>
     <dt>Locator Address:</dt>
      <dd><t> 
@@ -1472,6 +1470,155 @@
     </dl>
   </section>
 
+   <section anchor="geo-lcaf">
+    <name>The Geo-Location LCAF Type</name>
+    <t>
+    The Geo-Location LCAF Type (Type 17) is used to carry geographic
+    coordinates in EID-Records and RLOC-Records. See <xref target="RFC10040"/>
+    for examples of its use.
+    </t>
+    <t>
+    The following terms are used in this section:
+    </t>
+    <dl newline="false" spacing="normal" indent="3">
+     <dt>Geo-Point:</dt>
+      <dd><t>
+      a coordinate according to <xref target="GEO"/> that defines a point using
+      the latitude, longitude, and altitude parameters.
+      </t></dd>
+     <dt>Geo-Prefix:</dt>
+      <dd><t>
+      a Geo-Point and a radius, which together describe a sphere (or a circle,
+      if the altitude is not specified). A Geo-Point is known to be "more specific"
+      than a Geo-Prefix when its physical location is within the geographic sphere.
+      </t></dd>
+    </dl>
+    <figure align="center">
+    <name>Geo-Location LISP Canonical Address Format</name>
+    <artwork type="ascii-art">
+     <![CDATA[
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|           AFI = 16387         |     Rsvd1     |     Flags     |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|   Type = 17   |     Rsvd2     |            Length             |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|U|N|E|A|M|R|K|    Reserved     |     Location Uncertainty      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|  Lat Degrees  |             Latitude Milliseconds             |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| Long Degrees  |             Longitude Milliseconds            |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                            Altitude                           |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|             Radius            |            Reserved           |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                AFI            |         Address  ...          |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+      ]]>
+    </artwork></figure>
+    <dl newline="false" spacing="normal" indent="3">
+     <dt>U:</dt>
+      <dd><t>
+      if set, the Location Uncertainty field is used. If clear, the Location
+      Uncertainty field MUST be transmitted as 0 and ignored on receipt.
+      </t></dd>
+     <dt>N:</dt>
+      <dd><t>
+      if set, the latitude is north of the Equator. If clear, the latitude is
+      south of the Equator.
+      </t></dd>
+     <dt>E:</dt>
+      <dd><t>
+      if set, the longitude is east of the Prime Meridian. If clear, the
+      longitude is west of the Prime Meridian.
+      </t></dd>
+     <dt>A:</dt>
+      <dd><t>
+      if set, the Altitude field is used. If clear, the Altitude field MUST be
+      transmitted as 0 and ignored on receipt.
+      </t></dd>
+     <dt>M:</dt>
+      <dd><t>
+      if set, the altitude is specified in meters. If clear, the altitude is
+      specified in centimeters.
+      </t></dd>
+     <dt>R:</dt>
+      <dd><t>
+      if set, the Radius field is used and the encoding is a Geo-Prefix. If
+      clear, the Radius field MUST be transmitted as 0 and ignored on receipt,
+      and the encoding is a Geo-Point.
+      </t></dd>
+     <dt>K:</dt>
+      <dd><t>
+      if set, the radius is specified in kilometers. If clear, the radius is
+      specified in meters.
+      </t></dd>
+     <dt>Reserved:</dt>
+      <dd><t>
+      this field is reserved for future use and MUST be transmitted as 0 and
+      ignored on receipt.
+      </t></dd>
+     <dt>Location Uncertainty:</dt>
+      <dd><t>
+      unsigned 16-bit integer indicating the number of centimeters of
+      uncertainty for the location.
+      </t></dd>
+     <dt>Lat Degrees:</dt>
+      <dd><t>
+      unsigned 8-bit integer with a range of 0 to 90 degrees north or south of
+      the Equator (northern or southern hemisphere, respectively). If the value
+      is 90, the Latitude Milliseconds field MUST be 0.
+      </t></dd>
+     <dt>Latitude Milliseconds:</dt>
+      <dd><t>
+      unsigned 24-bit integer containing the part of the latitude smaller than
+      one degree, in milliseconds. The range is 0 to 3,599,999 (that is,
+      less than 60 minutes).
+      </t></dd>
+     <dt>Long Degrees:</dt>
+      <dd><t>
+      unsigned 8-bit integer with a range of 0 to 180 degrees east or west of
+      the Prime Meridian. If the value is 180, the Longitude Milliseconds field
+      MUST be 0.
+      </t></dd>
+     <dt>Longitude Milliseconds:</dt>
+      <dd><t>
+      unsigned 24-bit integer containing the part of the longitude smaller than
+      one degree, in milliseconds. The range is 0 to 3,599,999 (that is,
+      less than 60 minutes).
+      </t></dd>
+     <dt>Altitude:</dt>
+      <dd><t>
+      signed 32-bit integer containing the height relative to sea level, in
+      centimeters or meters as indicated by the M bit. A negative value
+      indicates that the location is below sea level.
+      </t></dd>
+     <dt>Radius:</dt>
+      <dd><t>
+      unsigned 16-bit integer containing the radius of a sphere (or circle, if
+      the altitude is not specified) centered at the specified coordinates, in
+      meters or kilometers as indicated by the K bit. When the radius is
+      specified, this LCAF Type encodes a Geo-Prefix covering the entire area
+      of the sphere or circle.
+      </t></dd>
+     <dt>AFI:</dt>
+      <dd><t>
+      as specified in <xref target="AFIList"/>.
+      </t></dd>
+     <dt>Address:</dt>
+      <dd><t>
+      as specified in <xref target="AFIList"/>.
+      </t></dd>
+    </dl>
+    <t>
+    A Geo-Location LCAF Type that contains a value outside the ranges specified
+    above is invalid and MUST be silently ignored. Verifying the accuracy of the
+    location information is outside the scope of this document.
+    </t>
+   </section>
+
    <section anchor="vendor-lcaf">
     <name>The Vendor-Specific LCAF Type</name>
     <t>
@@ -1562,6 +1709,35 @@
   Any such mechanism is out of scope for this document.
   </t>
  <t>
+ The use of geographic coordinates (<xref target="geo-lcaf"/>) needs to be
+ considered carefully so as not to violate privacy expectations about physical
+ location; see BCP 160 <xref target="RFC6280"/> and the privacy guidelines in
+ <xref target="RFC6973"/>. When an xTR registers mappings that include
+ Geo-Location information, it allows its physical location to be known to
+ queriers of the Mapping Database System and to the components that make up
+ the Mapping Database System. A policy about who can access the information
+ is associated with the registration. Typically, the policy is stored on the
+ xTR and applied when the Mapping Service Provider (MSP) forwards Map-Requests
+ to the xTRs of the LISP site; the responding xTR can then decide whether to
+ send a Map-Reply with all RLOC-Records or only those that do not contain
+ Geo-Location information. If the MSP is requested to proxy Map-Replies, the
+ MSP <bcp14>MUST</bcp14> apply the xTR policy so that only authorized
+ requesters get access to Geo-Location information. Once a requester is
+ authorized, Map-Replies are returned directly to it and are signed as
+ described in <xref target="RFC9303"/>; they can also be encrypted to prevent
+ eavesdropping.
+ </t>
+ <t>
+ Geo-Location information is typically registered for LISP xTRs or other
+ asset inventory rather than for hosts. However, because RLOC-Records carrying
+ Geo-Location information can be associated with any EID, hosts can be
+ tracked if such an EID is assigned to them. Existing LISP features can reduce
+ this exposure: signatures <xref target="I-D.ietf-lisp-ecdsa-auth"/> can
+ authenticate and authorize requesters, using a Geo-Prefix instead of a
+ Geo-Point minimizes the data disclosed, and short TTLs keep the mappings
+ ephemeral and reduce the attack window.
+ </t>
+ <t>
   Additionally, implementers should ensure that proper validation
   and error handling are in place for all LCAF Types to prevent
   potential attacks such as malformed data injections. 
@@ -1572,8 +1748,8 @@
  <name>IANA Considerations</name>
  <t>
  Because this document obsoletes 
- RFC 8060 and RFC 9306, IANA is asked to change all registration information that 
- references <xref target="RFC8060"/> or <xref target="RFC9306"/> to instead reference [[this RFC]].
+ RFC 8060, RFC 9306, and RFC 10040, IANA is asked to change all registration information that
+ references <xref target="RFC8060"/>, <xref target="RFC9306"/>, or <xref target="RFC10040"/> to instead reference [[this RFC]].
  </t>
   <t>
  IANA is also requested to update the description for AFI 16387 in the
@@ -1627,7 +1803,7 @@
    <tr>
     <td align="left">5</td>
     <td align="left">Deprecated</td>
-    <td align="left"><xref target="I-D.ietf-lisp-geo"/></td>
+    <td align="left">[[this RFC]]</td>
    </tr>
    <tr>
     <td align="left">6</td>
@@ -1682,6 +1858,11 @@
    <tr>
     <td align="left">16</td>
     <td align="left">Encapsulation Format</td>
+    <td align="left">[[this RFC],<xref target="encodings"/>]</td>
+   </tr>
+   <tr>
+    <td align="left">17</td>
+    <td align="left">Geo-Location</td>
     <td align="left">[[this RFC],<xref target="encodings"/>]</td>
    </tr>
    <tr>
@@ -1787,6 +1968,17 @@
       <references>
         <name>Normative References</name>
         
+        <reference anchor="GEO" target="https://nsgreg.nga.mil/doc/view?i=4085">
+         <front>
+          <title>Department of Defense World Geodetic System 1984: Its Definition and Relationships with Local Geodetic Systems</title>
+          <author>
+            <organization>National Geospatial-Intelligence Agency</organization>
+          </author>
+          <date day="8" month="July" year="2014"/>
+         </front>
+         <seriesInfo name="NGA" value="NGA.STND.0036_1.0.0_WGS84"/>
+        </reference>
+
         <reference anchor="IEEE.802" target="https://ieeexplore.ieee.org/document/6847097">
          <front>
           <title>IEEE Standard for Local and Metropolitan Area Networks: Overview and Architecture</title>
@@ -1809,6 +2001,7 @@
 
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.768.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6280.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6793.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8126.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
@@ -1838,8 +2031,8 @@
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.farinacci-lisp-lispers-net-nat.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-intarea-gue.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-lisp-8111bis.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-lisp-ecdsa-auth.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-lisp-nat-traversal.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-lisp-geo.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-lisp-eid-mobility.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-lisp-te.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-lisp-vpn.xml"/>
@@ -1852,6 +2045,7 @@
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.4607.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6832.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6836.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6973.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7348.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7637.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7761.xml"/>
@@ -1860,6 +2054,7 @@
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8061.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8926.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9306.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.10040.xml"/>
 
       </references>
     </references>
@@ -1875,7 +2070,8 @@
       Gregg Schudel, Jesper Skriver, Luigi Iannone, Isidor Kouvelas, Sander 
       Steffann, Victor Moreno, Parantap Lahiri, Michael Kowal, Fabio Maino, 
       Albert Cabellos-Aparicio, Michiel Blokzijl, Terry Manderson, 
-      Stephen Farrell, Deborah Brungard, Joel Halpern, and Marc Portoles.
+      Stephen Farrell, Deborah Brungard, Joel Halpern, Marc Portoles, 
+      Kiran Makhijani, Chris Hopps, Enke Chen, Acee Lindem, and Naiming Shen.
       </t>
     </section>
     
@@ -1979,6 +2175,14 @@
       <li>Updated the IANA Considerations section to reflect the new registry.</li>
       <li>Added guidance for the Designated Experts.</li>
       </ul>
+    </section>
+
+    <section numbered="false">
+     <name>Version -06</name>
+     <ul>
+      <li>Merged the contents of RFC 10040 into this document.</li>
+      <li>Generalized the use of the Security Key LCAF to any AFI.</li>
+     </ul>
     </section>  
    </section>
     
